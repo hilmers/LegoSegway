@@ -1,4 +1,4 @@
-package tests;
+package hardware;
 
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.HiTechnicGyro;
