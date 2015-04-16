@@ -13,7 +13,7 @@ public class Monitor {
 		return controlSignal;
 	}
 
-	public void setControlSignal(int controlSignal) {
+	public synchronized void setControlSignal(int controlSignal) {
 		this.controlSignal = controlSignal;
 	}
 

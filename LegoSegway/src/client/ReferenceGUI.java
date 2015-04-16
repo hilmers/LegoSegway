@@ -1,26 +1,41 @@
 package client;
 
 import java.awt.FlowLayout;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class ReferenceGUI {
 	private int controlSignal, currentAngle, referenceValue;
-	JLabel jl;
-	public ReferenceGUI() {
+	private Monitor mon;
+	private JLabel jl;
+	public ReferenceGUI(Monitor mon) {
+		this.mon = mon;
 		JFrame frame = new JFrame();
 		jl = new JLabel();
-		JTextField jt = new JTextField();
-		init(frame, jl);	
-		setSignals(0, 0, 0);
+		final JTextField jt = new JTextField("New reference value");
+		JButton upd = new JButton("Update ref");
+		 upd.addActionListener(new ActionListener() {
+			 
+	            public void actionPerformed(ActionEvent e)
+	            {
+	                //Execute when button is pressed
+	                System.out.println("You clicked the button");
+	                String input = jt.getText();
+	                int parsed = Integer.parseInt(input);
+	                setRef(parsed);
+	            }
+	        }); 
+		init(frame, jl, jt, upd);
 		
 		
 		
 	}
 	
-	private void init(JFrame frame, JLabel jl) {
+	private void init(JFrame frame, JLabel jl, JTextField jt, JButton upd) {
 		frame.setTitle("Change Reference");
 		frame.setSize(300, 300);
 		frame.setLocationRelativeTo(null);
@@ -28,25 +43,17 @@ public class ReferenceGUI {
 		
 		frame.setLayout(new FlowLayout());
 		 frame.add(jl);
+		 frame.add(jt);
+		 frame.add(upd);
 		 
 		
 		 frame.setVisible(true);
 	}
 	
-	public void plot() {
-		String prevText = "";
-		if (jl.getText().length() > 0)
-			prevText = jl.getText().split("<html>")[1].split("</html>")[0];
-		
-		
-		jl.setText("<html>"+ prevText+ "<br>ControlSignal: " + controlSignal + ", Angle: " + currentAngle + ", Ref: "+ referenceValue + "</html>");
-		//Ska plotta ut i graf men först bara text
-	}
 	
-	public void setSignals(int cont, int ang, int ref) {
-		this.controlSignal = cont;
-		this.currentAngle = ang;
-		this.referenceValue = ref;
+	private void setRef(int ref) {
+	
+		mon.setReferenceValue(ref);
 	}
 
 }

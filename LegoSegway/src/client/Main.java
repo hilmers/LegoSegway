@@ -6,9 +6,13 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("test");
 		OperatorPlotGUI opGUI = new OperatorPlotGUI();
+		
+		
 		Monitor mon = new Monitor();
+		ReferenceGUI refGUI = new ReferenceGUI(mon);
 		PlotThread pt = new PlotThread(mon, opGUI);
-		for (int i = 0 ; i < 10; i++)
+		pt.run();
+		while(true)
 			opGUI.plot();
 	}
 
