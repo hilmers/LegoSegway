@@ -1,7 +1,8 @@
 package regul;
 
 public class PID {
-	private double beta, K, h, N, Td, Ti, Tr; //parameters
+	private double beta, K, N, Td, Ti, Tr; //parameters
+	private long h;
 	private double ad, bd;
 	private double I, D;
 	private double e, v, yOld;
@@ -13,7 +14,7 @@ public class PID {
 		//initialise parameters?
 		beta = 1.0;
 		K = 1.0;
-		h = 0.05;
+		h = 50;
 		N = 8.0;
 		Td = 0;
 		Ti = 1;
@@ -56,7 +57,7 @@ public class PID {
 	 * @param Ti
 	 * @param Tr
 	 */
-	public synchronized void setParameters(double beta, double K, double h, double N, double Td, double Ti, double Tr) {
+	public synchronized void setParameters(double beta, double K, long h, double N, double Td, double Ti, double Tr) {
 		this.beta = beta;
 		this.K = K;
 		this.h = h;
@@ -65,4 +66,8 @@ public class PID {
 		this.Ti = Ti;
 		this.Tr = Tr;
 	}
+	public synchronized long getSampleRate() {
+		return h;
+	}
+	
 }
