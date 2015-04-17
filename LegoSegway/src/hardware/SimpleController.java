@@ -16,6 +16,7 @@ public class SimpleController implements Runnable {
 		this.left = left;
 		this.right = right;
 		this.samplInterv = sampInterv;
+		
 	}
 
 	public void run() {
