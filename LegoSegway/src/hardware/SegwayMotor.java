@@ -11,12 +11,10 @@ public class SegwayMotor {
 	}
 	
 	public void rotateForward(int degrees) {
-		motor.forward();
 		motor.rotate(degrees);
 	}
 	
 	public void rotateBackward(int degrees) {
-		motor.backward();
-		motor.rotate(degrees);
+		motor.rotate(-degrees);
 	}
 }
