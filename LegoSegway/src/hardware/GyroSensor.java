@@ -4,12 +4,12 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.HiTechnicGyro;
 import lejos.utility.Delay;
 
-public class Environment implements Runnable {
+public class GyroSensor implements Runnable {
 	float thresh; // Gyroscope sensor threshold
 	float sensorVal = 0;
 	long sampInterv;
 	
-	public Environment(float thresh, long sampInterv) {
+	public GyroSensor(float thresh, long sampInterv) {
 		this.thresh = thresh;
 		this.sampInterv = sampInterv;
 	}
@@ -53,15 +53,4 @@ public class Environment implements Runnable {
 		return sensorVal;
 	}
 	
-	void setMotors() {
-		//TODO implements this
-	}
-	
-
-	public static void main(String[] args) {
-		long sampInterv = 200;
-		Thread thread = new Thread(new Environment(0.6f, sampInterv));
-		thread.start();
-	}
-
 }
