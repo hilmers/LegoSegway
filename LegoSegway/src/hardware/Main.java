@@ -10,11 +10,9 @@ public class Main {
 		GyroSensor gyro = new GyroSensor(0.6f, 100);
 		MotorMonitor mon = new MotorMonitor();
 		Thread gyro_thread = new Thread(new GyroThread(gyro, mon));
-		Thread left_motor = new Thread(new MotorThread(left, mon));
-		Thread right_motor = new Thread(new MotorThread(right, mon));
+		Thread motorThread = new Thread(new MotorThread(left,right, mon));
 		gyro_thread.start();
-		left_motor.start();
-		right_motor.start();
+		motorThread.start();
 		
 	}
 }

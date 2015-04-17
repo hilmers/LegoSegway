@@ -7,16 +7,15 @@ public class SegwayMotor {
 	
 	public SegwayMotor(RegulatedMotor motor) {
 		this.motor = motor;
-		motor.setSpeed(740);
 	}
 	
-	public void rotateForward(int degrees) {
-		motor.stop();
+	public void rotateForward(int speed) {
+		motor.setSpeed(speed);
 		motor.forward();
 	}
 	
-	public void rotateBackward(int degrees) {
-		motor.stop();
+	public void rotateBackward(int speed) {
+		motor.setSpeed(speed);
 		motor.backward();
 	}
 }

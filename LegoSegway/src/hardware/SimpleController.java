@@ -44,19 +44,26 @@ public class SimpleController implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		RegulatedMotor motor_left = new EV3LargeRegulatedMotor(MotorPort.C);
-		RegulatedMotor motor_right = new EV3LargeRegulatedMotor(MotorPort.B);
-		SegwayMotor left = new SegwayMotor(motor_left);
-		SegwayMotor right = new SegwayMotor(motor_right);
+		//RegulatedMotor motor_left = new EV3LargeRegulatedMotor(MotorPort.C);
+		//RegulatedMotor motor_right = new EV3LargeRegulatedMotor(MotorPort.B);
+		//SegwayMotor left = new SegwayMotor(motor_left);
+		//SegwayMotor right = new SegwayMotor(motor_right);
 		GyroSensor gyro = new GyroSensor(0.6f, 100);
 		MotorMonitor mon = new MotorMonitor();
-		Thread gyro_thread = new Thread(new GyroThread(gyro, mon));
-		Thread left_motor = new Thread(new MotorThread(left, mon));
-		Thread right_motor = new Thread(new MotorThread(right, mon));
+		EV3LargeRegulatedMotor motA = new EV3LargeRegulatedMotor(MotorPort.C);
+		
+		RegulatedMotor[] motB = {new EV3LargeRegulatedMotor(MotorPort.B)};
+		
+		motA.synchronizeWith(motB);
+		motA.startSynchronization();
+		SegwayMotor left = new SegwayMotor(motA);
+		SegwayMotor right = new SegwayMotor(motB[0]);
+		
 		SimpleController controller = new SimpleController(gyro, left, right,
 				100);
 		Thread thread = new Thread(controller);
 		thread.start();
+		
 
 	}
 

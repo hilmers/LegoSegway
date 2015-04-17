@@ -14,10 +14,10 @@ public class GyroThread implements Runnable {
 	public void run() {
 		while (true) {
 			float angVel = sensor.getSensorValue();
-			mon.setForward(angVel > 0);
-			mon.setDegrees((Math.round(angVel)));
+			mon.setForward(angVel < 0);
+			mon.setSpeed((Math.round(angVel*10)));
 			try {
-				Thread.sleep(100);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

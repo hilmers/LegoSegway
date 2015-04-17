@@ -1,24 +1,24 @@
 package hardware;
 
 public class MotorMonitor {
-	private int degrees;
+	private int speed;
 	private boolean forward;
 	private boolean hasChanged;
 	
-	public synchronized int getDegrees() throws InterruptedException {
+	public synchronized int getSpeed() throws InterruptedException {
 		while(!hasChanged) {
 			wait();
 		}
 		hasChanged = false;
-		return degrees;
+		return speed;
 	}
 
 	public synchronized boolean forward() {
 		return forward;
 	}
 	
-	public synchronized void setDegrees(int degrees) {
-		this.degrees = degrees;
+	public synchronized void setSpeed(int speed) {
+		this.speed = speed;
 		hasChanged = true;
 		notifyAll();
 	}
