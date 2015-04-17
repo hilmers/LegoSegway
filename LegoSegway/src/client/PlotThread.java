@@ -14,7 +14,7 @@ public class PlotThread implements Runnable {
 		while (true) {
 			plotGUI.setSignals(mon.getControlSignal(), mon.getCurrentAngle(), mon.getReferenceValue());
 			plotGUI.plot();
-			System.out.println("k√∂rs");
+			System.out.println("körs");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
