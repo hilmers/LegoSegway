@@ -15,7 +15,12 @@ public class GyroThread implements Runnable {
 		while (true) {
 			float angVel = sensor.getSensorValue();
 			mon.setForward(angVel > 0);
-			mon.setDegrees(1);
+			mon.setDegrees((Math.round(angVel)));
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

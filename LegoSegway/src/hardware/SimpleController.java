@@ -16,7 +16,6 @@ public class SimpleController implements Runnable {
 		this.left = left;
 		this.right = right;
 		this.samplInterv = sampInterv;
-		
 	}
 
 	public void run() {
@@ -50,6 +49,10 @@ public class SimpleController implements Runnable {
 		SegwayMotor left = new SegwayMotor(motor_left);
 		SegwayMotor right = new SegwayMotor(motor_right);
 		GyroSensor gyro = new GyroSensor(0.6f, 100);
+		MotorMonitor mon = new MotorMonitor();
+		Thread gyro_thread = new Thread(new GyroThread(gyro, mon));
+		Thread left_motor = new Thread(new MotorThread(left, mon));
+		Thread right_motor = new Thread(new MotorThread(right, mon));
 		SimpleController controller = new SimpleController(gyro, left, right,
 				100);
 		Thread thread = new Thread(controller);
