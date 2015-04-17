@@ -8,6 +8,7 @@ public class GyroSensor {
 	float thresh; // Gyroscope sensor threshold
 	float sensorVal = 0;
 	long sampInterv;
+	float angle = 0;
 
 	public GyroSensor(float thresh, long sampInterv) {
 		this.thresh = thresh;
@@ -25,6 +26,7 @@ public class GyroSensor {
 		// calculate the mean value of that.
 		for (int i = 0; i < samples; i++) {
 			gyro.getRateMode().fetchSample(sample, 0);
+			
 			// System.out.printf("velocity: %.2f\n", sample[0]);
 			mean += sample[0];
 		}
@@ -38,8 +40,14 @@ public class GyroSensor {
 		}
 
 		System.out.println("Sensor-val: " + sensorVal);
-
+		
+		angle += sensorVal * 1/100;
+		
 		return sensorVal;
+	}
+	
+	public float getAngle() {
+		return angle;
 	}
 
 }
