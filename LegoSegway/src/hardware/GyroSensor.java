@@ -4,7 +4,7 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.HiTechnicGyro;
 import lejos.utility.Delay;
 
-public class GyroSensor implements Runnable {
+public class GyroSensor {
 	float thresh; // Gyroscope sensor threshold
 	float sensorVal = 0;
 	long sampInterv;
@@ -16,17 +16,8 @@ public class GyroSensor implements Runnable {
 	
 	private HiTechnicGyro gyro = new HiTechnicGyro(SensorPort.S2);
 
-	@Override
-	public void run() {
 	
-		while (true) {
-			sensorVal = sensorValue();
-			Delay.msDelay(sampInterv);
-		}
-
-	}
-	
-	synchronized float sensorValue() {
+	public synchronized float getSensorValue() {
 		int samples = 5;
 		float[] sample = new float[1];
 

@@ -1,6 +1,5 @@
 package hardware;
 
-import lejos.robotics.EncoderMotor;
 import lejos.robotics.RegulatedMotor;
 
 public class SegwayMotor {
@@ -8,6 +7,7 @@ public class SegwayMotor {
 	
 	public SegwayMotor(RegulatedMotor motor) {
 		this.motor = motor;
+		motor.setSpeed(740);
 	}
 	
 	public void rotateForward(int degrees) {
