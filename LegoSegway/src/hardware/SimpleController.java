@@ -21,13 +21,21 @@ public class SimpleController implements Runnable {
 	public void run() {
 		float sensorValue;
 		while (!Thread.interrupted()) {
-
+			sensorValue = gyro.getSensorValue();
 			
+			if (sensorValue < 0) {
+				left.rotateBackward(10);
+				right.rotateBackward(10);
+			} 
 			
+			else if (sensorValue > 0) {
+				left.rotateForward(10);
+				right.rotateForward(10);
+				
+			}
 			
 			
 			Delay.msDelay(samplInterv);
-			
 			
 			
 
