@@ -15,13 +15,13 @@ public class PositionThread implements Runnable {
 	public void run() {
 		long start = System.currentTimeMillis();
 		double position = segway.getPosition();
+		mon.setPosition(position);
 		try {
 			double velocity = segway.getVelocity();
 			mon.setVelocity(velocity);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		mon.setRelativePosition(position);
 		long elapsed = System.currentTimeMillis() - start;
 		if (elapsed < h) {
 			try {

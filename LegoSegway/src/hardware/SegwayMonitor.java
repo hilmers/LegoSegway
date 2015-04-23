@@ -22,11 +22,11 @@ public class SegwayMonitor {
 		this.forward = forward;
 	}
 	
-	public synchronized double getRelativePosition() {
+	public synchronized double getPosition() {
 		return position;
 	}
 	
-	public synchronized void setRelativePosition(double position) {
+	public synchronized void setPosition(double position) {
 		this.position = position;
 	}
 	
