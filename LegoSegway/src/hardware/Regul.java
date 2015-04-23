@@ -57,7 +57,7 @@ public class Regul implements Runnable {
 	}
 
 	private int limit(int i) {
-		return i > 370 ? 370 : i;
+		return Math.abs(i) > 100 ? 100 : Math.abs(i);
 	}
 
 }
