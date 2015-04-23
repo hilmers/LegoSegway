@@ -13,7 +13,7 @@ public class GyroThread implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			float angVel = sensor.getSensorValue();
+			float angVel = sensor.angleVelocity();
 			mon.setForward(angVel < 0);
 			mon.setSpeed((Math.round(angVel*10)));
 			try {

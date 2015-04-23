@@ -7,7 +7,7 @@ public class Main {
 	public static void main(String[] args) {
 		SegwayMotor left = new SegwayMotor(new EV3LargeRegulatedMotor(MotorPort.C));
 		SegwayMotor right = new SegwayMotor(new EV3LargeRegulatedMotor(MotorPort.B));
-		GyroSensor gyro = new GyroSensor(0.6f, 100);
+		GyroSensor gyro = new GyroSensor();
 		MotorMonitor mon = new MotorMonitor();
 		Thread gyro_thread = new Thread(new GyroThread(gyro, mon));
 		Thread motorThread = new Thread(new MotorThread(left,right, mon));
