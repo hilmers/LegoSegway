@@ -4,8 +4,8 @@ public class SegwayMonitor {
 	private int speed;
 	private double position;
 	private double velocity;
-	private float angle;
-	private float angVel;
+	private double angle;
+	private double angVel;
 	
 	public synchronized int getSpeed() {
 		return speed;
@@ -35,19 +35,19 @@ public class SegwayMonitor {
 		this.velocity = velocity;
 	}
 	
-	public synchronized float getAngle() {
+	public synchronized double getAngle() {
 		return angle;
 	}
 	
-	public synchronized void setAngle(float angle) {
+	public synchronized void setAngle(double angle) {
 		this.angle = angle;
 	}
 	
-	public synchronized float getAngularVelocity() {
+	public synchronized double getAngularVelocity() {
 		return angVel;
 	}
 	
-	public synchronized void setAngularVelocity(float angVel) {
+	public synchronized void setAngularVelocity(double angVel) {
 		this.angVel = angVel;
 	}
 }

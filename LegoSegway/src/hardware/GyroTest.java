@@ -9,7 +9,7 @@ public class GyroTest implements Runnable {
 
 	@Override
 	public void run() {
-		float angle;
+		double angle;
 		while (true) {
 			angle = gyro.getAngle();
 			System.out.println("vel: " + angle);

@@ -19,7 +19,7 @@ public class SimpleController implements Runnable {
 	}
 
 	public void run() {
-		float sensorValue;
+		double sensorValue;
 		while (!Thread.interrupted()) {
 			sensorValue = gyro.angleVelocity();
 			

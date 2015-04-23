@@ -13,9 +13,9 @@ public class GyroThread implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			float angVel = sensor.angleVelocity();
+			double angVel = sensor.angleVelocity();
 			mon.setAngularVelocity(angVel);
-			float angle = sensor.getAngle();
+			double angle = sensor.getAngle();
 			mon.setAngle(angle);
 			try {
 				Thread.sleep(100);

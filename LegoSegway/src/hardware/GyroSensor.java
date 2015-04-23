@@ -11,7 +11,7 @@ public class GyroSensor {
 	private LowPassFilter filter;
 	private float offset = 0;
 	float[] sample;
-	float angle = 0;
+	double angle = 0;
 	public double EMAOFFSET = 0.0005;
 	
 	
@@ -31,7 +31,7 @@ public class GyroSensor {
 		
 	}
 
-	public synchronized float angleVelocity() {
+	public synchronized double angleVelocity() {
 		filter.fetchSample(sample, 0);
 		//offset = (float) (EMAOFFSET * sample[0] + (1 - EMAOFFSET) * offset);
 		//System.out.println(offset);
@@ -44,7 +44,7 @@ public class GyroSensor {
 		return sample[0] + offset - static_offset;
 	}
 
-	public float getAngle() {
+	public double getAngle() {
 		if (!timeChecked) { 
 			time = System.currentTimeMillis();
 			timeChecked = true;
@@ -55,7 +55,7 @@ public class GyroSensor {
 		//System.out.println("angle " + angle);
 		
 		if ( angle < 1 && angle > -1){
-			angle = 0.0f;
+			angle = 0.0;
 		}
 		
 		return angle;
