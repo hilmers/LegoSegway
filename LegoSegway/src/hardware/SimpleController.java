@@ -21,7 +21,7 @@ public class SimpleController implements Runnable {
 	public void run() {
 		float sensorValue;
 		while (!Thread.interrupted()) {
-			sensorValue = gyro.getSensorValue();
+			sensorValue = gyro.angleVelocity();
 			
 			if (sensorValue < 0) {
 				left.rotateBackward(10);
@@ -48,7 +48,7 @@ public class SimpleController implements Runnable {
 		//RegulatedMotor motor_right = new EV3LargeRegulatedMotor(MotorPort.B);
 		//SegwayMotor left = new SegwayMotor(motor_left);
 		//SegwayMotor right = new SegwayMotor(motor_right);
-		GyroSensor gyro = new GyroSensor(0.6f, 100);
+		GyroSensor gyro = new GyroSensor();
 		MotorMonitor mon = new MotorMonitor();
 		EV3LargeRegulatedMotor motA = new EV3LargeRegulatedMotor(MotorPort.C);
 		
