@@ -1,11 +1,11 @@
 package regul;
 
 public class PID {
-	private double beta, K, N, Td, Ti, Tr; //parameters
-	private long h;
-	private double ad, bd;
-	private double I, D;
-	private double e, v, yOld;
+	private double beta, K, N, Td, Ti, Tr = 0.0; //parameters
+	private long h = 0;
+	private double ad, bd = 0.0;
+	private double I, D = 0.0;
+	private double e, v, yOld = 0.0;
 	private boolean integratorOn;
 	public static final int INNER = 0, OUTER = 1;
 
@@ -16,7 +16,7 @@ public class PID {
 			integratorOn = true;
 			K = 20; 
 			Ti = 160;  //160
-			Tr = 0;
+			Tr = 20.0;
 			Td = 0.3;
 			N = 5;
 		} else if(type == OUTER) {
@@ -25,7 +25,7 @@ public class PID {
 			integratorOn = false;
 			K = -10;
 			Ti = 0;
-			Tr = 0.05;
+			Tr = 20.0;
 			Td = 0.05;
 			N = 5;
 		}
