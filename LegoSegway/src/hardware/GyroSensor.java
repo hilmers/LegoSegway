@@ -41,7 +41,7 @@ public class GyroSensor {
 		//System.out.println("stat offs " + static_offset);
 		//System.out.println("offs " + offset);
 		//System.out.println("samp " + sample[0]);
-		return sample[0] + offset - static_offset;
+		return sample[0] + offset; //- static_offset;
 	}
 
 	public double getAngle() {
