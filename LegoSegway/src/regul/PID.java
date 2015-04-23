@@ -13,23 +13,21 @@ public class PID {
 		if (type == INNER) {
 			//parameters in case controlling the inner loop
 			beta = 1.0;
-			K = 1.0;
-			h = 50;
-			N = 8.0;
-			Td = 0;
-			Ti = 1;
-			Tr = 20; 
 			integratorOn = true;
+			K = 20; 
+			Ti = 160;  //160
+			Tr = 0;
+			Td = 0.3;
+			N = 5;
 		} else if(type == OUTER) {
 			// Parameters in case controlling the outer loop
 			beta = 1.0;
-			K = 1.0;
-			h = 50;
-			N = 8.0;
-			Td = 0;
-			Ti = 1;
-			Tr = 20; 
-			integratorOn = true;
+			integratorOn = false;
+			K = -10;
+			Ti = 0;
+			Tr = 0.05;
+			Td = 0.05;
+			N = 5;
 		}
 	}
 	/**
