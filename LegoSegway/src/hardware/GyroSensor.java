@@ -13,13 +13,11 @@ public class GyroSensor {
 	float[] sample;
 	float angle = 0;
 	public double EMAOFFSET = 0.0005;
-	float sampleTime;
 	
 	
 	float static_offset;
 
 	public GyroSensor(float sampleTime) {
-		this.sampleTime = sampleTime;
 		gyro = new HiTechnicGyro(SensorPort.S2);
 		filter = new LowPassFilter(gyro, 0.1f);
 		sample = new float[gyro.sampleSize()];
@@ -53,8 +51,8 @@ public class GyroSensor {
 		}
 		diff = System.currentTimeMillis() - time;
 		time = time + diff;
-		//System.out.println("offs " + offset);
 		angle = angle + (angleVelocity() * 0.1f);
+		System.out.println("angle " + angle);
 		return angle;
 
 	}
