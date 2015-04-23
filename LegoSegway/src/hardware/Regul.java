@@ -34,6 +34,7 @@ public class Regul implements Runnable {
 			
 			synchronized(angController) {
 				angle = mon.getAngle();
+				System.out.println("angle: "+angle);
 				v = angController.calculateOutput(angle, u);
 				angController.updateState(v);
 				mon.setSpeed((int)Math.round(v));
@@ -57,7 +58,7 @@ public class Regul implements Runnable {
 	}
 
 	private int limit(int i) {
-		return Math.abs(i) > 10 ? 10 : Math.abs(i);
+		return Math.abs(i) > 50 ? 50 : Math.abs(i);
 	}
 
 }
