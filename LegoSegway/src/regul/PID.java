@@ -16,7 +16,7 @@ public class PID {
 			integratorOn = true;
 			K = 20; 
 			Ti = 160;  //160
-			Tr = 0;
+			Tr = 20;
 			Td = 0.3;
 			N = 5;
 		} else if(type == OUTER) {
@@ -25,7 +25,7 @@ public class PID {
 			integratorOn = false;
 			K = -10;
 			Ti = 0;
-			Tr = 0.05;
+			Tr = 20;
 			Td = 0.05;
 			N = 5;
 		}
