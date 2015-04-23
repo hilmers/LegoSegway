@@ -53,6 +53,11 @@ public class GyroSensor {
 		time = time + diff;
 		angle = angle + (angleVelocity() * 0.1f);
 		System.out.println("angle " + angle);
+		
+		if ( angle < 1 && angle > -1){
+			angle = 0.0f;
+		}
+		
 		return angle;
 
 	}
