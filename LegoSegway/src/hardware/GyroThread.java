@@ -2,9 +2,9 @@ package hardware;
 
 public class GyroThread implements Runnable {
 	private GyroSensor sensor;
-	private MotorMonitor mon;
+	private SegwayMonitor mon;
 	
-	public GyroThread(GyroSensor sensor, MotorMonitor mon) {
+	public GyroThread(GyroSensor sensor, SegwayMonitor mon) {
 		this.sensor = sensor;
 		this.mon = mon;
 	}

@@ -49,7 +49,7 @@ public class SimpleController implements Runnable {
 		//SegwayMotor left = new SegwayMotor(motor_left);
 		//SegwayMotor right = new SegwayMotor(motor_right);
 		GyroSensor gyro = new GyroSensor();
-		MotorMonitor mon = new MotorMonitor();
+		SegwayMonitor mon = new SegwayMonitor();
 		EV3LargeRegulatedMotor motA = new EV3LargeRegulatedMotor(MotorPort.C);
 		
 		RegulatedMotor[] motB = {new EV3LargeRegulatedMotor(MotorPort.B)};

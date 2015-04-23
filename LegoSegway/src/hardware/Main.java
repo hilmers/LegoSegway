@@ -9,11 +9,11 @@ public class Main {
 		SegwayMotor right = new SegwayMotor(new EV3LargeRegulatedMotor(MotorPort.B));
 		GyroSensor gyro = new GyroSensor();
 		Segway segway = new Segway(left, right, gyro);
-		MotorMonitor mon = new MotorMonitor();
+		SegwayMonitor mon = new SegwayMonitor();
 		Thread gyro_thread = new Thread(new GyroThread(gyro, mon));
-		Thread motorThread = new Thread(new MotorThread(segway, mon));
+		Thread regul = new Thread(new Regul(segway, mon, 100)); // H = 0.1s
 		gyro_thread.start();
-		motorThread.start();
+		regul.start();
 		
 	}
 }
