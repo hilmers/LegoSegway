@@ -17,7 +17,7 @@ public class GyroThread implements Runnable {
 			mon.setForward(angVel < 0);
 			mon.setSpeed((Math.round(angVel*10)));
 			try {
-				Thread.sleep(10);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
