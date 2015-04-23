@@ -2,9 +2,9 @@ package hardware;
 
 public class GyroThread implements Runnable {
 	private GyroSensor sensor;
-	private MotorMonitor mon;
+	private SegwayMonitor mon;
 	
-	public GyroThread(GyroSensor sensor, MotorMonitor mon) {
+	public GyroThread(GyroSensor sensor, SegwayMonitor mon) {
 		this.sensor = sensor;
 		this.mon = mon;
 	}
@@ -14,7 +14,9 @@ public class GyroThread implements Runnable {
 	public void run() {
 		while (true) {
 			float angVel = sensor.angleVelocity();
-			mon.setForward(angVel < 0);
+			mon.setAngularVelocity(angVel);
+			float angle = sensor.getAngle();
+			mon.setAngle(angle);
 			mon.setSpeed((Math.round(angVel*10)));
 			try {
 				Thread.sleep(100);
@@ -23,5 +25,4 @@ public class GyroThread implements Runnable {
 			}
 		}
 	}
-
 }

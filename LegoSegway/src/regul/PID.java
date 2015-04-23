@@ -7,19 +7,30 @@ public class PID {
 	private double I, D;
 	private double e, v, yOld;
 	private boolean integratorOn;
-	
-	//ADD FEED-BACK / FEED-FORWARD?
-	
-	public PID() {
-		//initialise parameters?
-		beta = 1.0;
-		K = 1.0;
-		h = 50;
-		N = 8.0;
-		Td = 0;
-		Ti = 1;
-		Tr = 20; 
-		integratorOn = true;
+	public static final int INNER = 0, OUTER = 1;
+
+	public PID(int type) {
+		if (type == INNER) {
+			//parameters in case controlling the inner loop
+			beta = 1.0;
+			K = 1.0;
+			h = 50;
+			N = 8.0;
+			Td = 0;
+			Ti = 1;
+			Tr = 20; 
+			integratorOn = true;
+		} else if(type == OUTER) {
+			// Parameters in case controlling the outer loop
+			beta = 1.0;
+			K = 1.0;
+			h = 50;
+			N = 8.0;
+			Td = 0;
+			Ti = 1;
+			Tr = 20; 
+			integratorOn = true;
+		}
 	}
 	/**
 	 * calculates the controller output in reference to the current input and the reference value
@@ -34,7 +45,7 @@ public class PID {
 		v = K*(beta*ref - y) + I + D;
 		return v;
 	}
-	
+
 	/**
 	 * Update the controller state. Uses tracking and anti-windup. 
 	 * @param u - the calculated output
@@ -46,7 +57,7 @@ public class PID {
 			I = 0.0;
 		}
 	}
-	
+
 	/**
 	 * Update the parameters in the controller
 	 * @param beta
@@ -69,5 +80,5 @@ public class PID {
 	public synchronized long getSampleRate() {
 		return h;
 	}
-	
+
 }
