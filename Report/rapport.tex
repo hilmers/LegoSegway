@@ -1,0 +1,71 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Detta är ett exempel på ett latexdokument.
+% 
+% Alla dokument består av följande delar:
+%
+%          \documentclass[optioner]{dokumentklass}
+%            ...inställningar...
+%          \begin{document}
+%            ...text...
+%          \end{document}
+%
+% Som ni kanske redan har förstått är används procent (%) för
+% kommentarer.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper]{article}
+
+\usepackage[T1]{fontenc}                % För svenska bokstäver
+\usepackage[swedish]{babel}             % För svensk avstavning och svenska
+                                        % rubriker (t ex "innehållsförteckning)
+\title{FRTN01 Project \\
+Group 1: Lego Segway}
+\author{
+		Kristoffer Hilmersson, dat11khi@student.lu.se\\
+		Alexander Karlsson, dat11aka@student.lu.se\\
+		Erik Stenlund, zba10est@student.lu.se\\
+		Axel Ahlbeck, dat11aah@student.lu.se}
+       % Blir dagens datum om det utelämnas
+
+\begin{document}
+
+\maketitle        
+\newpage              % Skriver ut rubriken som vi
+\tableofcontents
+                                % deklarerade ovan med \title, \author
+\newpage                                % och eventuellt \date
+
+\section{Introduction}          % Detta kommando gör en rubrik
+
+							       % Detta blir en underru
+ This report is about our attempt to control a Segway build in Lego. The objections for the Segway is that it should be able to self-balance, reject external disturbances and to be able to receive external commands for setpoint generation. This was done by first making a simple model of the problem that was used to design the controller. The the controller was then implemented in software that ran on the Segway.
+
+
+
+
+ \section{The Lego Segway}
+ The Segway is build using the Lego Mindstorms EV3 set. We desided to use a Hightonic Gyrosensor which measures the current angular velocity as our only sensor. The programmable brick that we have used is the Lego EV3. On the brick we run the firmware leJOS instead of the regular Mindstorms firmware. LejOS includes a JVM (Java Virtual Machine) which makes it possible to program the segway in java.
+
+\section{Segway Model}
+A segway is a inverted pendulum on a cart. To be able to keep the pendulum, in this case the segway, upright the cart has to move backward or forward to reject the forces of gravity. 
+
+\section{Control Design}
+
+%FRÅN INFÖR
+The system will be controlled using a single PID-controller. Since the only measurable output is the angle offset to the horizontal plane, the system can be controlled with a single controller, this angle will serve as our reference. The controller will need to be very precise when controlling the system, which suggests that all three parts of the controller will have to be used. Additionally, the parameters of the different parts will have to be fine-tuned in order to achieve stability.
+    Assuming that the sensor will output an analog signal, the controller has to be able to sample the signal to compute its control signal. Given the fact that a segway is very sensitive to errors, the controller will need to sample rather fast in order to keep the segway balanced at all times.
+
+To further stabilize the segway, state feedback will be used. This is to prevent the segway from falling due to slanting floors or dirt in its way. The segway should be able to balance regardless of where it is placed (within reasonable limits, of course).
+
+
+\section{Program}
+%FRÅN INFÖR
+The program consists of two different parts. One Segway program that runs on the LEGO Mindstorm unit that handles the control of the Segway. The other program is the Operator program that runs on a computer and is used for setting the reference- and parameter values to the Segway. It is also used to plot the signals from the LEGO gyroscope, the calculated control signal and the reference value in a window. 
+
+The Segway program (see figure 1 for UML-diagram) consists of a Main program that starts the controller thread (the Regulator class) and one thread used for communication between the LEGO program and the Operator program called CommunicationThread. The controller reads its input from a LEGO gyroscope sensor (LegoGyro) and the reference value from the Monitor class it then uses a PID controller to calculate a control signal to the two engines (LegoEngine) that is used to control each wheel of the Segway, the new control signal and the angle are then updated in the monitor. The calculated control signal and the angle are read by the communication thread from the monitor and sent by the network (maybe via Bluetooth) to the Operator program the communication thread also reads parameters and reference value from the Operator program and updates the monitor.
+
+The Operator program (see figure 2 for UML-diagram)  contains a Main class that starts two threads. One, the CommunicationThread, reads the values of the signals from the Segway program and updates a monitor that contains the current values. PlotThread is used to read current signal values from the monitor and update the PlotOperatorGUI. There is two controller input GUI:s, ParameterGUI and ReferenceGUI that read the preferred reference value and parameters from the graphical interface and by using an actionhandler stores the new reference value in the monitor. The communication thread then reads the reference signal from the monitor and sends, if necessary, the new reference value to the Segway.
+
+  %Detta blir en underunderrubrik
+
+\end{document}                 % The input file ends with this command.
