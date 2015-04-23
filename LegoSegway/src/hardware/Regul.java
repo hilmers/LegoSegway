@@ -33,8 +33,8 @@ public class Regul implements Runnable {
 
 				synchronized(angleController) {
 					angle = mon.getAngle();
-					System.out.println("angle: "+angle);
 					v = angleController.calculateOutput(angle, u);
+					System.out.println("signal from Controller: " + v);
 					angleController.updateState(v);
 					mon.setSpeed((int)Math.round(v));
 					if (mon.forward()) {
