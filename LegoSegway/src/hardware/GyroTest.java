@@ -4,7 +4,7 @@ public class GyroTest implements Runnable {
 	GyroSensor gyro;
 
 	public GyroTest() {
-		gyro = new GyroSensor();
+		gyro = new GyroSensor(0.1f);
 	}
 
 	@Override
