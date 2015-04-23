@@ -39,9 +39,10 @@ public class GyroSensor {
 			sensorVal = 0;
 		}
 
-		System.out.println("Sensor-val: " + sensorVal);
+		//System.out.println("Sensor-val: " + sensorVal);
 		
 		angle += sensorVal * 1/100;
+		System.out.println("Angle: " + angle);
 		
 		return sensorVal;
 	}
