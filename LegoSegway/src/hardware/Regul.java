@@ -41,7 +41,7 @@ public class Regul implements Runnable {
 				if (mon.forward()) {
 					segway.forward(limit(mon.getSpeed()/2), limit(mon.getSpeed()/2));
 				} else {
-					segway.backward(mon.getSpeed()/2, mon.getSpeed()/2);
+					segway.backward(limit(mon.getSpeed()/2), limit(mon.getSpeed()/2));
 				}
 			}
 			

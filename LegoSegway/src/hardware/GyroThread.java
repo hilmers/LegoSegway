@@ -17,7 +17,6 @@ public class GyroThread implements Runnable {
 			mon.setAngularVelocity(angVel);
 			float angle = sensor.getAngle();
 			mon.setAngle(angle);
-			mon.setSpeed((Math.round(angVel*10)));
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
