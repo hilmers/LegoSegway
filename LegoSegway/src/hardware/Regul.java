@@ -26,10 +26,10 @@ public class Regul implements Runnable {
 		while (true) {
 			long start = System.currentTimeMillis();
 
-			synchronized(posController) {
-				position = mon.getPosition();
-				u = posController.calculateOutput(position, 0.0);
-				posController.updateState(u);
+		//	synchronized(posController) {
+		//		position = mon.getPosition();
+		//		u = posController.calculateOutput(position, 0.0);
+		//		posController.updateState(u);
 
 				synchronized(angleController) {
 					angle = mon.getAngle();
@@ -52,7 +52,7 @@ public class Regul implements Runnable {
 						System.out.println("controller was not able to sleep");
 					}
 				}
-			}
+		//	}
 
 		}
 	}
