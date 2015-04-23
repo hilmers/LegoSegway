@@ -7,50 +7,50 @@ public class Regul implements Runnable {
 	private SegwayMonitor mon;
 	private long h;
 	private PID posController;
-	private PID angController;
+	private PID angleController;
 
 	public Regul(Segway segway, SegwayMonitor mon, long h) {
 		this.segway = segway;
 		this.mon = mon;
 		this.h = h;
 		posController = new PID(PID.OUTER);
-		angController = new PID(PID.INNER);
+		angleController = new PID(PID.INNER);
 	}
 
 	@Override
 	public void run() {
-		double position = 0;
-		double u = 0;
-		double v = 0;
-		double angle = 0;
+		double position = 0.0;
+		double u = 0.0;
+		double v = 0.0;
+		double angle = 0.0;
 		while (true) {
 			long start = System.currentTimeMillis();
-			
+
 			synchronized(posController) {
 				position = mon.getPosition();
-				u = posController.calculateOutput(position, 0);
+				u = posController.calculateOutput(position, 0.0);
 				posController.updateState(u);
-			}
-			
-			synchronized(angController) {
-				angle = mon.getAngle();
-				System.out.println("angle: "+angle);
-				v = angController.calculateOutput(angle, u);
-				angController.updateState(v);
-				mon.setSpeed((int)Math.round(v));
-				if (mon.forward()) {
-					segway.forward(limit(mon.getSpeed()/2), limit(mon.getSpeed()/2));
-				} else {
-					segway.backward(limit(mon.getSpeed()/2), limit(mon.getSpeed()/2));
+
+				synchronized(angleController) {
+					angle = mon.getAngle();
+					System.out.println("angle: "+angle);
+					v = angleController.calculateOutput(angle, u);
+					angleController.updateState(v);
+					mon.setSpeed((int)Math.round(v));
+					if (mon.forward()) {
+						segway.forward(limit(mon.getSpeed()/2), limit(mon.getSpeed()/2));
+					} else {
+						segway.backward(limit(mon.getSpeed()/2), limit(mon.getSpeed()/2));
+					}
 				}
-			}
-			
-			long elapsed = System.currentTimeMillis() - start;
-			if (elapsed < h) {
-				try {
-					Thread.sleep(h - elapsed);
-				} catch (InterruptedException e) {
-					System.out.println("controller was not able to sleep");
+
+				long elapsed = System.currentTimeMillis() - start;
+				if (elapsed < h) {
+					try {
+						Thread.sleep(h - elapsed);
+					} catch (InterruptedException e) {
+						System.out.println("controller was not able to sleep");
+					}
 				}
 			}
 
