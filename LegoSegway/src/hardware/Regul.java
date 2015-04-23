@@ -38,7 +38,7 @@ public class Regul implements Runnable {
 				angController.updateState(v);
 				mon.setSpeed((int)Math.round(v));
 				if (mon.forward()) {
-					segway.forward(mon.getSpeed()/2, mon.getSpeed()/2);
+					segway.forward(limit(mon.getSpeed()/2), limit(mon.getSpeed()/2));
 				} else {
 					segway.backward(mon.getSpeed()/2, mon.getSpeed()/2);
 				}
@@ -54,6 +54,10 @@ public class Regul implements Runnable {
 			}
 
 		}
+	}
+
+	private int limit(int i) {
+		return i > 370 ? 370 : i;
 	}
 
 }
