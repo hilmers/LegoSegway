@@ -38,9 +38,9 @@ public class GyroSensor {
 		int	a = gyro.sampleSize();
 		int k = a-1;
 		offset = (float) (k * offset + (sample[0] / a));
-		System.out.println("stat offs " + static_offset);
-		System.out.println("offs " + offset);
-		System.out.println("samp " + sample[0]);
+		//System.out.println("stat offs " + static_offset);
+		//System.out.println("offs " + offset);
+		//System.out.println("samp " + sample[0]);
 		return sample[0] + offset - static_offset;
 	}
 
@@ -52,7 +52,7 @@ public class GyroSensor {
 		diff = System.currentTimeMillis() - time;
 		time = time + diff;
 		angle = angle + (angleVelocity() * 0.1f);
-		System.out.println("angle " + angle);
+		//System.out.println("angle " + angle);
 		
 		if ( angle < 1 && angle > -1){
 			angle = 0.0f;
