@@ -18,4 +18,8 @@ public class SegwayMotor {
 		motor.setSpeed(speed);
 		motor.backward();
 	}
+	
+	public int getTachoCount() {
+		return motor.getTachoCount();
+	}
 }

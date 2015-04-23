@@ -1,13 +1,11 @@
 package hardware;
 
 public class MotorThread implements Runnable {
-	private SegwayMotor left;
-	private SegwayMotor right;
+	private Segway segway;
 	private MotorMonitor mon;
 	
-	public MotorThread(SegwayMotor left, SegwayMotor right, MotorMonitor mon) {
-		this.left = left;
-		this.right = right;
+	public MotorThread(Segway segway, MotorMonitor mon) {
+		this.segway = segway;
 		this.mon = mon;
 	}
 	
@@ -15,15 +13,13 @@ public class MotorThread implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			int degrees;
+			int speed;
 			try {
-				degrees = mon.getSpeed();
+				speed = mon.getSpeed();
 				if (mon.forward()) {
-					left.rotateForward(degrees/2);
-					right.rotateForward(degrees/2);
+					segway.forward(speed/2, speed/2);
 				} else {
-					left.rotateBackward(degrees/2);
-					right.rotateBackward(degrees/2);
+					segway.backward(speed/2, speed/2);
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
