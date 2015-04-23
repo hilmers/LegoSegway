@@ -6,45 +6,50 @@ public class Regul implements Runnable {
 	private Segway segway;
 	private SegwayMonitor mon;
 	private long h;
-	private PID inner;
-	private PID outer;
+	private PID posController;
+	private PID angController;
 
 	public Regul(Segway segway, SegwayMonitor mon, long h) {
 		this.segway = segway;
 		this.mon = mon;
 		this.h = h;
-		inner = new PID(PID.INNER);
-		outer = new PID(PID.OUTER);
+		posController = new PID(PID.OUTER);
+		angController = new PID(PID.INNER);
 	}
 
 	@Override
 	public void run() {
+		double position = 0;
+		double u = 0;
+		double v = 0;
+		double angle = 0;
 		while (true) {
 			long start = System.currentTimeMillis();
 			
-			
-			//cascade the two controllers
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			int speed = mon.getSpeed();
-			if (mon.forward()) {
-				segway.forward(speed/2, speed/2);
-			} else {
-				segway.backward(speed/2, speed/2);
+			synchronized(posController) {
+				position = mon.getPosition();
+				u = posController.calculateOutput(position, 0);
+				posController.updateState(u);
 			}
+			
+			synchronized(angController) {
+				angle = mon.getAngle();
+				v = angController.calculateOutput(angle, u);
+				angController.updateState(v);
+				mon.setSpeed((int)Math.round(v));
+				if (mon.forward()) {
+					segway.forward(mon.getSpeed()/2, mon.getSpeed()/2);
+				} else {
+					segway.backward(mon.getSpeed()/2, mon.getSpeed()/2);
+				}
+			}
+			
 			long elapsed = System.currentTimeMillis() - start;
 			if (elapsed < h) {
 				try {
 					Thread.sleep(h - elapsed);
 				} catch (InterruptedException e) {
-					System.out.println("was not able to sleep");
+					System.out.println("controller was not able to sleep");
 				}
 			}
 
