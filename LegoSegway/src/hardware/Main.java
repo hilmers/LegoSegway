@@ -2,6 +2,7 @@ package hardware;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
+import lejos.robotics.EncoderMotor;
 
 public class Main {
 	public static void main(String[] args) {
@@ -16,6 +17,5 @@ public class Main {
 		gyro_thread.start();
 		pos_thread.start();
 		regul.start();
-		
 	}
 }

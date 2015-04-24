@@ -1,4 +1,4 @@
-package regul;
+package hardware;
 
 public class PID {
 	private double beta, K, N, Td, Ti, Tr = 0.0; //parameters
@@ -24,11 +24,19 @@ public class PID {
 			beta = 1.0;
 			integratorOn = true;
 			
+<<<<<<< HEAD:LegoSegway/src/regul/PID.java
 			//€ndrade till 10	
 			K = 1000*0.0336;
 			Ti = 100*0.2688;
 			Tr = 5.0;
 			Td = 100*0.000504;
+=======
+			//ï¿½ndrade till 10	
+			K = 100;
+			Ti = 0.5;
+			Tr = 20.0;
+			Td = 50;
+>>>>>>> 172561059cb8760b7a663c62ef8c18a5b2e608c4:LegoSegway/src/hardware/PID.java
 			N = 5;
 		}
 	}
