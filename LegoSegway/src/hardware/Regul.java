@@ -1,6 +1,5 @@
 package hardware;
 
-import regul.PID;
 
 public class Regul implements Runnable {
 	private Segway segway;

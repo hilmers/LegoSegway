@@ -1,4 +1,4 @@
-package regul;
+package hardware;
 
 public class PID {
 	private double beta, K, N, Td, Ti, Tr = 0.0; //parameters
@@ -24,7 +24,7 @@ public class PID {
 			beta = 1.0;
 			integratorOn = false;
 			
-			//€ndrade till 10	
+			//ï¿½ndrade till 10	
 			K = 100;
 			Ti = 0.5;
 			Tr = 20.0;
