@@ -41,13 +41,13 @@ public class Regul implements Runnable {
 					angle = mon.getAngle();
 					v = angleController.calculateOutput(angle, u);
 
-					System.out.println("signal from Controller: " + v);
+				//	System.out.println("signal from Controller: " + v);
 					
 					//Update state
 
 					
 					
-					System.out.println("angle: "+angle+"v : " + v);
+					//System.out.println("angle: "+angle+"v : " + v);
 					
 
 					angleController.updateState(v);

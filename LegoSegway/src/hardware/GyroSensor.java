@@ -21,7 +21,6 @@ public class GyroSensor {
 
 	public synchronized double angleVelocity() {
 		filter.fetchSample(sample, 0);
-
 	
 		int	sampleSize = gyro.sampleSize();
 		offset = ((sampleSize - 1) * offset + (sample[0] / sampleSize));
