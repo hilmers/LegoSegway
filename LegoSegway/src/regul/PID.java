@@ -14,8 +14,8 @@ public class PID {
 			//parameters in case controlling the inner loop
 			beta = 1.0;
 			integratorOn = true;
-			K = 20; 
-			Ti = 160;  //160
+			K = 5; 
+			Ti = 0.5;  //160
 			Tr = 20.0;
 			Td = 0.3;
 			N = 5;
@@ -23,10 +23,12 @@ public class PID {
 			// Parameters in case controlling the outer loop
 			beta = 1.0;
 			integratorOn = false;
-			K = -10;
-			Ti = 0;
+			
+			//€ndrade till 10	
+			K = 100;
+			Ti = 0.5;
 			Tr = 20.0;
-			Td = 0.05;
+			Td = 50;
 			N = 5;
 		}
 	}
