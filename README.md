@@ -1,5 +1,5 @@
 # LegoSegwayFRTN01
-Control of Lego segway
+Control of Lego segway, a project developed in the course "Real Time Systems" at Lund Institute of Technology.
 
 #### 2015-04-17
 Our Lego Mindstorms Segway.
