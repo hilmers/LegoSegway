@@ -24,28 +24,43 @@ public class Regul implements Runnable {
 		double v = 0.0;
 		double angle = 0.0;
 		
+
 		
 		while (true) {
 			long start = System.currentTimeMillis();
 
 		//	synchronized(posController) {
+				//Calculate control signal
 		//		position = mon.getPosition();
 		//		u = posController.calculateOutput(position, 0.0);
+			
+				//Update state
 		//		posController.updateState(u);
+
 				synchronized(angleController) {
+					//Calculate control signal
 					angle = mon.getAngle();
 					v = angleController.calculateOutput(angle, u);
+
+					System.out.println("signal from Controller: " + v);
+					
+					//Update state
+
 					
 					
-						System.out.println("angle: "+angle+"v : " + v);
+					System.out.println("angle: "+angle+"v : " + v);
 					
+
 					angleController.updateState(v);
+					
+					//Run motor
 					mon.setSpeed((int)Math.round(v));
 					if (mon.forward()) {
 						segway.forward(limit(mon.getSpeed()), limit(mon.getSpeed()));
 					} else {
 						segway.backward(limit(mon.getSpeed()), limit(mon.getSpeed()));
 					}
+					
 				}
 
 				long elapsed = System.currentTimeMillis() - start;
@@ -62,7 +77,13 @@ public class Regul implements Runnable {
 	}
 
 	private int limit(int i) {
-		return i > 100 ? 100 : i;
+		if (i > 600) {
+			return 600;
+		} else if (i < -600) {
+			return -600;
+		} else {
+			return i;
+		}
 	}
 
 }
