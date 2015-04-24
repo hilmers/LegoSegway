@@ -22,13 +22,13 @@ public class PID {
 		} else if(type == OUTER) {
 			// Parameters in case controlling the outer loop
 			beta = 1.0;
-			integratorOn = false;
+			integratorOn = true;
 			
 			//€ndrade till 10	
-			K = 100;
-			Ti = 0.5;
-			Tr = 20.0;
-			Td = 50;
+			K = 1000*0.0336;
+			Ti = 100*0.2688;
+			Tr = 5.0;
+			Td = 100*0.000504;
 			N = 5;
 		}
 	}
