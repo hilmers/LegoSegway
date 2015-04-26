@@ -7,11 +7,13 @@ public class Regul implements Runnable {
 	private long h;
 	private PID posController;
 	private PID angleController;
+	private GyroSensor gyro;
 
 	public Regul(Segway segway, SegwayMonitor mon, long h) {
 		this.segway = segway;
 		this.mon = mon;
 		this.h = h;
+		gyro = new GyroSensor(0.1f);
 		posController = new PID(PID.OUTER);
 		angleController = new PID(PID.INNER);
 	}
@@ -22,6 +24,7 @@ public class Regul implements Runnable {
 		double u = 0.0;
 		double v = 0.0;
 		double angle = 0.0;
+		double angularVel = 0.0;
 		System.out.println("Running...");
 
 
@@ -38,7 +41,10 @@ public class Regul implements Runnable {
 
 			synchronized(angleController) {
 				//Calculate control signal
-				angle = mon.getAngle() + mon.getAngularVelocity();
+				//angle = mon.getAngle() + mon.getAngularVelocity();
+				angularVel = gyro.angleVelocity();
+				angle = gyro.getAngle() + angularVel;
+				
 				v = angleController.calculateOutput(angle, u);
 
 				//	System.out.println("angle: " + angle + " v: " + v);
@@ -51,6 +57,8 @@ public class Regul implements Runnable {
 				angleController.updateState(v);
 
 				//Run motor
+				mon.setAngle(angle);
+				mon.setAngularVelocity(angularVel);
 				mon.setSpeed((int)Math.round(v));
 				if (mon.forward()) {
 					segway.forward(limit(mon.getSpeed()), limit(mon.getSpeed()));

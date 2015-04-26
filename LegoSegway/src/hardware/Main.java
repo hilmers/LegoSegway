@@ -13,7 +13,7 @@ public class Main {
 		Thread gyro_thread = new Thread(new GyroThread(gyro, mon));
 		Thread pos_thread = new Thread(new PositionThread(segway, mon, 10));
 		Thread regul = new Thread(new Regul(segway, mon, 20)); // H = 0.02s
-		gyro_thread.start();
+		//gyro_thread.start();
 //		pos_thread.start();
 		regul.start();
 	}
