@@ -38,13 +38,13 @@ Group 1: Lego Segway}
 \section{Introduction}          % Detta kommando gör en rubrik
 
 							       % Detta blir en underru
- This report is about our attempt to control a Segway build in Lego. The objections for the Segway is that it should be able to self-balance, reject external disturbances and to be able to receive external commands for setpoint generation. This was done by first making a simple model of the problem that was used to design the controller. The the controller was then implemented in software that ran on the Segway.
+ This report is about our attempt to control a Segway build in Lego. The objections for the Segway is that it should be able to self-balance, reject external disturbances and to be able to receive external commands for setpoint generation. This was done by first making a simple model of the problem that was used to design the controller. The the controller was then implemented in software that ran on the Segway. The project consisted of o couple of different steps. At first we had to build the actual Lego Segway, then we had to analyse the model to determine which type of controller to use. After desideing which type of controller to use we started with a simpler model and had to fine tune the parameter to make the Segway stabilize. The fine tuning was done by experiments.
 
 
 
 
  \section{The Lego Segway}
- The Segway is build using the Lego Mindstorms EV3 set. We desided to use a Hightonic Gyrosensor which measures the current angular velocity as our only sensor. The programmable brick that we have used is the Lego EV3. On the brick we run the firmware leJOS instead of the regular Mindstorms firmware. LejOS includes a JVM (Java Virtual Machine) which makes it possible to program the segway in java.
+ The Segway is build using the Lego Mindstorms EV3 set. We desided to use a Hightonic Gyrosensor which measures the current angular velocity as our only sensor, using that signal we calculated the current angle of the Segway. The programmable brick that we have used is the Lego EV3. On the brick we run the firmware leJOS instead of the regular Mindstorms firmware. LejOS includes a JVM (Java Virtual Machine) which makes it possible to program the segway in java. We used EV3 Large Servo motors for controlling the wheels. We could measure the position relative to the startpoint using this motors, by deriving the position we could estimate the speed.
 
 \section{Segway Model}
 A segway is a inverted pendulum on a cart. To be able to keep the pendulum, in this case the segway, upright the cart has to move backward or forward to reject the forces of gravity. 
