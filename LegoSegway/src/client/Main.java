@@ -8,25 +8,15 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("test");
 		OperatorPlotGUI opGUI = new OperatorPlotGUI();
-		final OpCom opcom = new OpCom();
-		long starttime = System.currentTimeMillis();
-//		opcom.initializeGUI();
-//		opcom.start();
-		Runnable initializeGUI = new Runnable(){
-			public void run(){
-			    opcom.initializeGUI();
-			    opcom.start();
-			}
-		};
-		try{
-		    SwingUtilities.invokeAndWait(initializeGUI);
-		}catch(Exception e){
-		    return;
-		}
+		  Opcom opcom = new Opcom();
+		  Monitor mon = new Monitor();
+		  opcom.initializeGUI();
+		  Reader reader = new Reader(opcom, mon);
+		  opcom.start();
+		  reader.start();
 		
-		Monitor mon = new Monitor();
 		ReferenceGUI refGUI = new ReferenceGUI(mon);
-		PlotThread pt = new PlotThread(mon, opGUI, opcom);
+		PlotThread pt = new PlotThread(mon, opGUI);
 		pt.run();
 		
 		
