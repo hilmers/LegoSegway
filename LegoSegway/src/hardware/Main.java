@@ -10,11 +10,11 @@ public class Main {
 		GyroSensor gyro = new GyroSensor(0.1f);
 		Segway segway = new Segway(left, right, gyro);
 		SegwayMonitor mon = new SegwayMonitor();
-		Thread gyro_thread = new Thread(new GyroThread(gyro, mon));
-	//	Thread pos_thread = new Thread(new PositionThread(segway, mon, 10));
+//		Thread gyro_thread = new Thread(new GyroThread(gyro, mon));
+//		Thread pos_thread = new Thread(new PositionThread(segway, mon, 10));
 		Thread regul = new Thread(new Regul(segway, mon, 20)); // H = 0.02s
 		Thread com = new Thread(new CommunicationThread(new Connection(1337), mon));
-		gyro_thread.start();
+//		gyro_thread.start();
 //		pos_thread.start();
 		regul.start();
 		com.start();
