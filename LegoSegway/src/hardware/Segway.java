@@ -26,6 +26,10 @@ public class Segway {
 		rightMotor.rotateBackward(rightSpeed);
 	}
 	
+	public void stop() {
+		leftMotor.stop();
+		rightMotor.stop();
+	}
 	public double getPosition() {
 		double pos = (leftMotor.getTachoCount() + rightMotor.getTachoCount())/2;
 		return pos * distancePerDegree;
