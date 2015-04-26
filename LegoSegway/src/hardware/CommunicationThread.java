@@ -15,10 +15,10 @@ public class CommunicationThread implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true) {
-			conn.sendValues(mon.getSpeed(), mon.getAngle());
+			conn.sendValues(mon.getSpeed(), mon.getAngle(), mon.getAngularVelocity(), mon.getPosition(), mon.getVelocity());
 			ref = conn.readRef();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
