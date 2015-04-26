@@ -16,7 +16,7 @@ public class SegwayMonitor {
 	}
 	
 	public synchronized boolean forward() {
-		return angle > 0;
+		return angle < 0;
 	}
 	
 	public synchronized double getPosition() {

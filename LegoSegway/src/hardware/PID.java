@@ -14,8 +14,8 @@ public class PID {
 			//parameters in case controlling the inner loop
 			beta = 1.0;
 			integratorOn = true;
-			K = 5; 
-			Ti = 5; 
+			K = 25; 
+			Ti = 0.1; 
 			Tr = 5.0;
 			Td = 0.0;
 			N = 5;

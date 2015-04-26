@@ -10,15 +10,17 @@ public class SegwayMotor {
 	}
 	
 	public void rotateForward(int speed) {
-		motor.stop();
 		motor.setPower(speed);
 		motor.forward();
 	}
 	
 	public void rotateBackward(int speed) {
-		motor.stop();
 		motor.setPower(speed);
 		motor.backward();
+	}
+	
+	public void stop() {
+		motor.stop();
 	}
 	
 	public int getTachoCount() {
