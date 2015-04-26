@@ -18,7 +18,7 @@ public class GyroThread implements Runnable {
 			double angle = sensor.getAngle();
 			mon.setAngle(angle);
 			try {
-				Thread.sleep(20);
+				Thread.sleep(80);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -2,7 +2,7 @@ package hardware;
 
 public class PID {
 	private double beta, K, N, Td, Ti, Tr = 0.0; //parameters
-	private long h = 0;
+	private long h = 20;
 	private double ad, bd = 0.0;
 	private double I, D = 0.0;
 	private double e, v, yOld = 0.0;
@@ -15,9 +15,9 @@ public class PID {
 			beta = 1.0;
 			integratorOn = true;
 			K = 5; 
-			Ti = 0.5;  //160
-			Tr = 20.0;
-			Td = 0.3;
+			Ti = 5; 
+			Tr = 5.0;
+			Td = 0.0;
 			N = 5;
 		} else if(type == OUTER) {
 			// Parameters in case controlling the outer loop
@@ -31,6 +31,8 @@ public class PID {
 			Td = 100*0.000504;
 			N = 5;
 		}
+		ad = Td / (Td + N*0.02); // H = 0.02
+		bd = K*ad*N;
 	}
 	/**
 	 * calculates the controller output in reference to the current input and the reference value

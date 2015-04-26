@@ -41,7 +41,7 @@ public class Regul implements Runnable {
 					angle = mon.getAngle();
 					v = angleController.calculateOutput(angle, u);
 
-				//	System.out.println("signal from Controller: " + v);
+					System.out.println("signal from Controller: " + v);
 					
 					//Update state
 
@@ -76,10 +76,10 @@ public class Regul implements Runnable {
 	}
 
 	private int limit(int i) {
-		if (i > 700) {
-			return 700;
-		} else if (i < -700) {
-			return -700;
+		if (i > 100) {
+			return 100;
+		} else if (i < -100) {
+			return -100;
 		} else {
 			return i;
 		}

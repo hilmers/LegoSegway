@@ -1,21 +1,23 @@
 package hardware;
 
-import lejos.robotics.RegulatedMotor;
+import lejos.robotics.EncoderMotor;
 
 public class SegwayMotor {
-	private RegulatedMotor motor;
+	private EncoderMotor motor;
 	
-	public SegwayMotor(RegulatedMotor motor) {
+	public SegwayMotor(EncoderMotor motor) {
 		this.motor = motor;
 	}
 	
 	public void rotateForward(int speed) {
-		motor.setSpeed(speed);
+		motor.stop();
+		motor.setPower(speed);
 		motor.forward();
 	}
 	
 	public void rotateBackward(int speed) {
-		motor.setSpeed(speed);
+		motor.stop();
+		motor.setPower(speed);
 		motor.backward();
 	}
 	
