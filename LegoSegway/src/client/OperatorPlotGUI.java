@@ -5,7 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.*;
 
 public class OperatorPlotGUI{
-	private int controlSignal, currentAngle, referenceValue;
+	private double controlSignal, currentAngle, referenceValue;
 	JTextArea jt;
 	public OperatorPlotGUI() {
 		JFrame frame = new JFrame();
@@ -43,7 +43,7 @@ public class OperatorPlotGUI{
 		//Ska plotta ut i graf men först bara text
 	}
 	
-	public void setSignals(int cont, int ang, int ref) {
+	public void setSignals(double cont, double ang, double ref) {
 		this.controlSignal = cont;
 		this.currentAngle = ang;
 		this.referenceValue = ref;

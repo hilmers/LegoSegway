@@ -1,7 +1,7 @@
 package client;
 
 public class Monitor {
-	private int controlSignal, currentAngle, referenceValue;
+	private double controlSignal, currentAngle, referenceValue;
 
 	public Monitor() {
 		this.controlSignal = 0;
@@ -9,7 +9,7 @@ public class Monitor {
 		this.referenceValue = 0;
 	}
 	
-	public int getControlSignal() {
+	public double getControlSignal() {
 		return controlSignal;
 	}
 
@@ -17,7 +17,7 @@ public class Monitor {
 		this.controlSignal = controlSignal;
 	}
 
-	public int getCurrentAngle() {
+	public double getCurrentAngle() {
 		return currentAngle;
 	}
 
@@ -25,7 +25,7 @@ public class Monitor {
 		this.currentAngle = currentAngle;
 	}
 
-	public int getReferenceValue() {
+	public double getReferenceValue() {
 		return referenceValue;
 	}
 
