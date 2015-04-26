@@ -37,10 +37,12 @@ public class Connection {
 		return ref;
 	}
 	
-	public void sendValues(int cont, double angle) {
+	public void sendValues(int cont, double... values) {
 		try {
 			os.writeInt(cont);
-			os.writeDouble(angle);
+			for (double d : values) {
+				os.writeDouble(d);
+			}
 		} catch (IOException e) {
 			
 		}
