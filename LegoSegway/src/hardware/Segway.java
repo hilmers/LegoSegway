@@ -7,11 +7,12 @@ public class Segway {
 	private double distancePerDegree, prevPos;
 	private boolean checkedTimeFirstTime = false;
 	private long lastSample, time;
+	private GyroSensor gyro;
 	
 	public Segway(SegwayMotor leftMotor, SegwayMotor rightMotor, GyroSensor gyro) {
         this.leftMotor = leftMotor;
         this.rightMotor = rightMotor;
-  
+        this.gyro = gyro;
         distancePerDegree = 0.00071558;
        
 	}
@@ -33,6 +34,10 @@ public class Segway {
 	public double getPosition() {
 		double pos = (leftMotor.getTachoCount() + rightMotor.getTachoCount())/2;
 		return pos * distancePerDegree;
+	}
+	
+	public GyroSensor getGyro() {
+		return gyro;
 	}
 	
 	public double getVelocity() throws Exception {

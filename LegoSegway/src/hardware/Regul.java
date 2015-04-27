@@ -13,7 +13,7 @@ public class Regul implements Runnable {
 		this.segway = segway;
 		this.mon = mon;
 		this.h = h;
-		gyro = new GyroSensor(0.1f);
+		gyro = segway.getGyro();
 		posController = new PID(PID.OUTER);
 		angleController = new PID(PID.INNER);
 	}
