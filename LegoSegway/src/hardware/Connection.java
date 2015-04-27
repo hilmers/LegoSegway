@@ -20,7 +20,7 @@ public class Connection {
 			serverSocket = new ServerSocket(port);
 			server = serverSocket.accept();
 			
-			is = new DataInputStream(server.getInputStream());
+			//is = new DataInputStream(server.getInputStream());
 			os = new DataOutputStream(server.getOutputStream());
 		} catch (IOException e) {
 			
