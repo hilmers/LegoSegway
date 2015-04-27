@@ -1,7 +1,7 @@
 package hardware;
 
 public class PID {
-	private double beta, K, N, Td, Ti, Tr = 0.0; //parameters
+	private double beta, K, N, Td, Ti, Tr,Ku = 0.0; //parameters
 	private long h = 20;
 	private double ad, bd = 0.0;
 	private double I, D = 0.0;
@@ -14,9 +14,10 @@ public class PID {
 			//parameters in case controlling the inner loop
 			beta = 1.0;
 			integratorOn = true;
-			K = 25; 
-			Ti = 0.1; 
-			Tr = 5.0;
+			Ku = 50;
+			K = 0.45*Ku; 
+			Ti = 200.0 / 1.2; 
+			Tr = 0.0;
 			Td = 0.0;
 			N = 5;
 		} else if(type == OUTER) {
