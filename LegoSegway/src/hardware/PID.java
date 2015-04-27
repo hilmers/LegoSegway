@@ -1,8 +1,8 @@
 package hardware;
 
 public class PID {
-	private double beta, K, N, Td, Ti, Tr,Ku = 0.0; //parameters
-	private long h = 20;
+	private double beta, K, N, Td, Ti, Tr, Kp0, Ku, Tu = 0.0; //parameters
+	private long h = 10;
 	private double ad, bd = 0.0;
 	private double I, D = 0.0;
 	private double e, v, yOld = 0.0;
@@ -12,13 +12,24 @@ public class PID {
 	public PID(int type) {
 		if (type == INNER) {
 			//parameters in case controlling the inner loop
+			
+			// Ku 				ultimate gain / constant amplitude
+			// Tu 				oscillation period
+			Ku = 50000000.0;
+			Tu = 20000.0; 			//20?
+			
+			
 			beta = 1.0;
 			integratorOn = true;
-			Ku = 50;
-			K = 0.45*Ku; 
-			Ti = 200.0 / 1.2; 
-			Tr = 0.0;
-			Td = 0.0;
+			//Kp0 = 50000000.0;
+			//K = 0.6*Kp0; 
+			K = 0.33 * Ku;
+			Ti = 2.0 * K / Tu;
+			Td = K*Tu/3.0;
+			
+			//Ti = 20.0 / 2.0; 
+			Tr = 5.0;
+			//Td = 20.0 / 8.0;
 			N = 5;
 		} else if(type == OUTER) {
 			// Parameters in case controlling the outer loop
@@ -59,6 +70,7 @@ public class PID {
 		} else {
 			I = 0.0;
 		}
+		
 	}
 
 	/**
@@ -82,6 +94,11 @@ public class PID {
 	}
 	public synchronized long getSampleRate() {
 		return h;
+	}
+	
+	public void setIntegrator(boolean condition) {
+		integratorOn = condition;
+		I = 0;
 	}
 
 }

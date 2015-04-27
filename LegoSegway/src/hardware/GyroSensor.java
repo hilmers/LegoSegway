@@ -32,7 +32,10 @@ public class GyroSensor {
 	
 		
 		//System.out.println(sample[0] + offset);
-		return sample[0] + offset;
+		double samp = sample[0] + offset;
+		if (samp > - 4 && samp  < 4) samp = 0;
+		
+		return samp;
 	}
 
 	public double getAngle() {
@@ -45,8 +48,7 @@ public class GyroSensor {
 		angle = angle + (angleVelocity() * ((double) diff/1000));
 		//System.out.println("diff " + diff);
 		
-		if (angle > -0.05 && angle < 0.05) angle = 0;
-		
+		if (angle > -1 && angle < 1) angle = 0;
 		return angle;
 
 	}

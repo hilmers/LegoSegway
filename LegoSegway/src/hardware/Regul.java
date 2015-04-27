@@ -44,19 +44,11 @@ public class Regul implements Runnable {
 				//angle = mon.getAngle() + mon.getAngularVelocity();
 				angularVel = gyro.angleVelocity();
 				angle = gyro.getAngle() + angularVel;
-				
-				v = angleController.calculateOutput(angle, u);
-
-				//	System.out.println("angle: " + angle + " v: " + v);
-
-				//Update state
-
-				//System.out.println("angle: "+angle+"v : " + v);
-
-
-				angleController.updateState(v);
-
-				//Run motor
+				// 	System.out.println(angle);
+			
+					
+				v = angleController.calculateOutput(angle, 0.0);
+					
 				mon.setAngle(angle);
 				mon.setAngularVelocity(angularVel);
 				mon.setSpeed((int)Math.round(v));
@@ -64,8 +56,27 @@ public class Regul implements Runnable {
 					segway.forward(limit(mon.getSpeed()), limit(mon.getSpeed()));
 				} else {
 					segway.backward(limit(mon.getSpeed()), limit(mon.getSpeed()));
-
+					
 				}
+				
+				
+				
+
+				//	System.out.println("angle: " + angle + " v: " + v);
+
+				//Update state
+
+				//System.out.println("angle: "+angle+"v : " + v);
+
+				if (v > 100 || v < -100) {
+					angleController.setIntegrator(false);
+					
+				} else {
+					angleController.setIntegrator(true);
+				}
+				angleController.updateState(v);
+
+				//Run motor
 
 			}
 
@@ -82,7 +93,7 @@ public class Regul implements Runnable {
 
 		//}
 	}
-
+	
 
 	private int limit(int j) {
 		int i = Math.abs(j);
