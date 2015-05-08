@@ -17,7 +17,7 @@ public class Main {
 		Thread com = new Thread(new CommunicationThread(1337, parmon));
 //		gyro_thread.start();
 //		pos_thread.start();
-//		regul.start();
-		com.start();
+		regul.start();
+//		com.start();
 	}
 }

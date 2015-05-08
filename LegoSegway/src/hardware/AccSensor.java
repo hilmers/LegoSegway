@@ -15,7 +15,13 @@ public class AccSensor {
 
 	public double getAccData() {
 		acc.fetchSample(sample, 0);
-		angle = Math.acos(sample[0] / 9.81);
+		double val = sample[0] / 9.81;
+		if (val > 1) {
+			val = 1.0;
+		} else if (val < -1) {
+			val = -1.0;
+		}
+		angle = Math.acos(val);
 		return angle;
 	}
 

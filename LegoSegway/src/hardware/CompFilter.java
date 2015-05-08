@@ -5,8 +5,8 @@ public class CompFilter {
 
 	// h is the sample-time
 	public CompFilter(double h) {
-		this.h = h / 1000;
-		eh = Math.exp(-h);
+		this.h = h/1000;
+		eh = Math.exp(-this.h);
 	}
 
 	public double compFilt(double ya, double yg) {
