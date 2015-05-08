@@ -48,8 +48,9 @@ public class CommunicationThread implements Runnable {
 					try {
 						val = Double.parseDouble(s);
 					} catch (NumberFormatException e) {
-						os.write("NaN\n");
+						os.write("NaN, try again!\n");
 						os.flush();
+						continue;
 					}
 					if (message.startsWith("tu")) {
 						mon.setTu(val);
