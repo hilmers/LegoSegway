@@ -47,9 +47,16 @@ Group 1: Lego Segway}
  The Segway were built using the Lego Mindstorms EV3 set. We desided to use a Hightonic Gyrosensor which measures the current angular velocity as our only sensor, using that signal we were able to calculate the current angle of the Segway. On the EV3 brick we ran the firmware leJOS instead of the regular Mindstorms firmware. LejOS includes a JVM (Java Virtual Machine) which makes it possible to program the segway in java. EV3 Large Servo motors were used for controlling the wheels. By measuring the number of degrees the motor axis had rotated the position relative to the startpoint could be estimated. The relative position could the be derivied to form an estimate of the speed. 
 
 \section{Segway Model}
-A segway is a inverted pendulum on a cart. To be able to keep the pendulum, in this case the segway, upright the cart has to move backward or forward to reject the forces of gravity. To be able achive this a controller is introduced to minimize the tilt of pendulum on the cart. This implies that the cart has to move forward to reduce the tilt of the pendulum when it falls forward. Simirially the cart has to move
+A segway is a inverted pendulum on a cart. To be able to keep the pendulum, in this case the segway, upright the cart has to move backward or forward to reject the forces of gravity. To be able achive this a controller of the carts wheels is introduced to minimize the tilt of pendulum on the cart. This implies that the pendulum falling forwards causes the cart to move forward. Simirially the cart has to move backward to reject the pendulum from falling backwards. 
+
 
 \section{Control Design}
+The desing of the controller used in this project will be divided into the part. 
+At first our goal is to be able to make the Segway balance using a single PID-regulator. This controller will be implemented to keep the angle of the segway relative to the normal of the ground to zero. During this part we will use different methods both analytic and empirical to define appropiate parameter values for the regulator.
+
+ When this is achived and the Segway is able to balance our plan is to extend the controller and instead of one PID-regualtor use two cascaded coupled PID-regulators. The input to the outer PID will be the desired position of the Segway that signal will be used as input to the inner regulator which calculates the control signal to the motors. This would make it possible for us to both balance the Segway and to move it forward and backward. Setpoints will then be introduced to limit the signal to either of the wheels, this will make it possible to also steer the Segway to right or left.
+
+
 
 %FRÅN INFÖR
 The system will be controlled using a single PID-controller. Since the only measurable output is the angle offset to the horizontal plane, the system can be controlled with a single controller, this angle will serve as our reference. The controller will need to be very precise when controlling the system, which suggests that all three parts of the controller will have to be used. Additionally, the parameters of the different parts will have to be fine-tuned in order to achieve stability.
@@ -61,21 +68,32 @@ To further stabilize the segway, state feedback will be used. This is to prevent
 \section{Program}
 Our program consists of two different parts. One Segway program that runs on the LEGO Mindstorm unit that handles the control of the Segway. The other program is the Operator program that runs on a computer and is used for setting the reference- and parameter values to the Segway. It is also used to plot the signals from the LEGO gyroscope, the calculated control signal and the reference value in a window. 
 %FRÅN INFÖR
-The program consists of two different parts. One Segway program that runs on the LEGO Mindstorm unit that handles the control of the Segway. The other program is the Operator program that runs on a computer and is used for setting the reference- and parameter values to the Segway. It is also used to plot the signals from the LEGO gyroscope, the calculated control signal and the reference value in a window. %Vilka signaler det nu är
+
+%The program consists of two different parts. One Segway program that runs on the LEGO Mindstorm unit that handles the control of the Segway. The other program is the Operator program that runs on a computer and is used for setting the reference- and parameter values to the Segway. It is also used to plot the signals from the LEGO gyroscope, the calculated control signal and the reference value in a window. %Vilka signaler det nu är
 
 \subsection{Segway}
-The Segway program (see figure 1 for UML-diagram) consists of a Main program that starts the controller thread (the Regulator class), one thread that reads values from the Gyroscope and updates the Monitor, one thread that reads the position of the Segway from the motors and one thread used for communication between the LEGO program and the Operator program that is called CommunicationThread. Th
+The program runned on the Segway is stored in the package called hardware (see figure 1 for UML-diagram). It consists of a Main program that starts the controller thread (the Regul class) and the thread used for communication between the LEGO program and the Operator program called CommunicationThread. All shared data that between the threads are stored in a class called Monitor, this class contains synchronized get- and set-methods which enables the threads to share their data in a thread safe way. The controller is implemented in a class called Regul. Regul contains an instance of the class Segway which in its turn contains instances of the classes SegwayMotor and GyroSensor these classes contains methods to controll the motors and read gyroscope values. Using the values from the gyrosensor regulator calculates the control values that is sent to the motors by using instances of the class PID which is an implementation of a PID-regulator. The controller both limits the signals and uses anti-windup for the I-part of the controller. 
 
-
-
-
-
-
-The controller reads its input from a LEGO gyroscope sensor (LegoGyro) and the reference value from the Monitor class it then uses a PID controller to calculate a control signal to the two engines (LegoEngine) that is used to control each wheel of the Segway, the new control signal and the angle are then updated in the monitor. The calculated control signal and the angle are read by the communication thread from the monitor and sent by the network (maybe via Bluetooth) to the Operator program the communication thread also reads parameters and reference value from the Operator program and updates the monitor.
 
 \subsection{Operator}
 The Operator program (see figure 2 for UML-diagram)  contains a Main class that starts two threads. One, the CommunicationThread, reads the values of the signals from the Segway program and updates a monitor that contains the current values. PlotThread is used to read current signal values from the monitor and update the PlotOperatorGUI. There is two controller input GUI:s, ParameterGUI and ReferenceGUI that read the preferred reference value and parameters from the graphical interface and by using an actionhandler stores the new reference value in the monitor. The communication thread then reads the reference signal from the monitor and sends, if necessary, the new reference value to the Segway.
 
+  %Detta blir en underunderrubrik
+\section{User Interface}
+
+\subsection{Running the Segway}
+The user uploads her program to the EV3 brick via Bluetooth. This is easily done through the leJOS-plugin for Eclipse. When the program is running on the segway, the user will have to use Telnet in order to connect to the segway to be able to run it. The IP-address of the EV3 brick can be found on the screen of the brick if wifi is enabled. Once connected, the user can input different commands which will be explained below.
+
+\begin{itemize}
+\item \textbf{start} - starts the controller, allowing the segway to stand
+\item \textbf{stop} - stops the controller, making the segway stop (and fall)
+\item \textbf{ku <value>} - changes the parameter $K_{u}$ of the controller to <value>
+\item \textbf{tu <value>} - changes the parameter $T_{u}$ of the controller to <value>
+\end{itemize}
+
+\noindent Using the command \textbf{stop} will not terminate the controller thread, meaning the segway can start again without having to restart the system and reconnecting using Telnet. Terminate the program, the user clicks the \"Stop Program\" button found in the leJOS GUI found in the leJOS Eclipse-plugin.
+
+\subsection{Plotter}
   %Detta blir en underunderrubrik
   
 \section{Implementation}
