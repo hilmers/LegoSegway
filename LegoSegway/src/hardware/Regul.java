@@ -8,10 +8,12 @@ public class Regul implements Runnable {
 	private PID posController;
 	private PID angleController;
 	private GyroSensor gyro;
+	private ParameterMonitor parmon;
 
-	public Regul(Segway segway, SegwayMonitor mon, long h) {
+	public Regul(Segway segway, SegwayMonitor mon, ParameterMonitor parmon, long h) {
 		this.segway = segway;
 		this.mon = mon;
+		this.parmon = parmon;
 		this.h = h;
 		gyro = segway.getGyro();
 		posController = new PID(PID.OUTER);
@@ -76,8 +78,11 @@ public class Regul implements Runnable {
 				}
 				angleController.updateState(v);
 
+				//This updates the controller parameters
+				//If they have not changed, the old value will be used
+				angleController.updateParameters(parmon.getKu(), parmon.getTu());
+				
 				//Run motor
-
 			}
 
 			long elapsed = System.currentTimeMillis() - start;

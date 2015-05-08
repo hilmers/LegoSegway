@@ -100,5 +100,13 @@ public class PID {
 		integratorOn = condition;
 		I = 0;
 	}
+	
+	public synchronized void updateParameters(double Ku, double Tu) {
+		this.Ku = Ku;
+		this.Tu = Tu;
+		K = 0.33 * Ku;
+		Ti = 2.0 * K / Tu;
+		Td = K*Tu/3.0;
+	}
 
 }

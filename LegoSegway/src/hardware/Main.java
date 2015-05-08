@@ -13,7 +13,7 @@ public class Main {
 		ParameterMonitor parmon = new ParameterMonitor();
 //		Thread gyro_thread = new Thread(new GyroThread(gyro, mon));
 //		Thread pos_thread = new Thread(new PositionThread(segway, mon, 10));
-		Thread regul = new Thread(new Regul(segway, segmon, 10)); // H = 0.02s
+		Thread regul = new Thread(new Regul(segway, segmon, parmon, 10)); // H = 0.02s
 		Thread com = new Thread(new CommunicationThread(1337, parmon));
 //		gyro_thread.start();
 //		pos_thread.start();
