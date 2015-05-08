@@ -1,21 +1,21 @@
 ######################
 # Eclipse
 ######################
- 
-*.pydevproject
-.project
+LegoSegway/*.pydevproject
+LegoSegway/.project
 .metadata
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.classpath
-.settings/
-.loadpath
+LegoSegway/bin/**
+LegoSegway/tmp/**
+LegoSegway/tmp/**/*
+LegoSegway/*.tmp
+LegoSegway/*.bak
+LegoSegway/*.swp
+LegoSegway/*~.nib
+LegoSegway/local.properties
+LegoSegway/.classpath
+LegoSegway/.settings/
+LegoSegway/.loadpath
+RemoteSystemsTempFiles/
 /src/main/resources/rebel.xml
 # External tool builders
 .externalToolBuilders/
@@ -24,7 +24,7 @@ local.properties
 *.launch
  
 # CDT-specific
-.cproject
+LegoSegway/.cproject
  
 # PDT-specific
-.buildpath
+LegoSegway/.buildpath
