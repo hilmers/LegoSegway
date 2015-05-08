@@ -17,7 +17,7 @@
 
 \usepackage[T1]{fontenc}                % För svenska bokstäver
 \usepackage[swedish]{babel}             % För svensk avstavning och svenska
-                                        % rubriker (t ex "innehållsförteckning)
+\usepackage[hyphens]{url}                                  % rubriker (t ex "innehållsförteckning)
 \title{FRTN01 Project \\
 Group 1: Lego Segway}
 \author{
@@ -77,5 +77,21 @@ The controller reads its input from a LEGO gyroscope sensor (LegoGyro) and the r
 The Operator program (see figure 2 for UML-diagram)  contains a Main class that starts two threads. One, the CommunicationThread, reads the values of the signals from the Segway program and updates a monitor that contains the current values. PlotThread is used to read current signal values from the monitor and update the PlotOperatorGUI. There is two controller input GUI:s, ParameterGUI and ReferenceGUI that read the preferred reference value and parameters from the graphical interface and by using an actionhandler stores the new reference value in the monitor. The communication thread then reads the reference signal from the monitor and sends, if necessary, the new reference value to the Segway.
 
   %Detta blir en underunderrubrik
+  
+\section{Implementation}
+\subsection{Initial work}
+The initial work consisted of getting familiar with the equipment. The first design was a tall and minimalistic segway with big wheels. It was a temporary design, but necessary for a quick start. Right from the beginning it was clear that Java was the language that should implement the considered real-time system. The approach required a Java virtual machine on the Lego Mindstorm EV3. The most reliable solution to that problem was leJOS\footnote{\url{http://www.lejos.org/}} which is a firmware replacement for Lego Mindstorm, developed for precisely this approach. 
+\\[3ex]
+Alot of the initial software development derived from the laboratory assignment 1, where a ball and beam process\footnote{\url{http://www.control.lth.se/previouscourse/FRTN01/Lab1_15/Laboratory1.html}} was developed using a PID regulator. But alot of the initial work consisted of installing leJOS and establishing a bluetooth connection to the EV3 device. 
+\\[3ex]
+Quickly we aimed for our first milestone, making the segway self-balancing. After research and discussion it was clear that the segway needed a PI controller and a gyro sensor to achieve that. 
+
+\subsection{Software design}
+As stated above the initial skeleton was based on the "Ball and beam" process, which has a lot of similar design considerations as a segway. Någon med bättre koll på mjukvarudelen borde skriva här :)
+
+\subsection{Physical design}
+Early on it was clear that the initial build of the segway had a lot of flaws. The position of the actual EV3 brick didn't give the segway equilibrium and there was no actual thought behind the design, besides making it tall for easier control. Tuning the PID parameters would not be an easy task with the present design. The solution was to rebuild it all, where stability and equilibrium was the main goal. After some research an advanced and robust design was found online, lego's official {\it Gyro Boy}   implementation\footnote{\url{http://robotsquare.com/wp-content/uploads/2013/10/45544_gyroboy.pdf}}, where our design consists of the vital parts in the tutorial. The design process is well documentet in our GitHub repository\footnote{\url{https://github.com/hilmers/LegoSegwayFRTN01}}.    
+
+\subsection{Parameter tuning}
 
 \end{document}                 % The input file ends with this command.
