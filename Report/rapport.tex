@@ -51,18 +51,18 @@ A segway is a inverted pendulum on a cart. To be able to keep the pendulum, in t
 
 
 \section{Control Design}
-The desing of the controller used in this project will be divided into the part. 
-At first our goal is to be able to make the Segway balance using a single PID-regulator. This controller will be implemented to keep the angle of the segway relative to the normal of the ground to zero. During this part we will use different methods both analytic and empirical to define appropiate parameter values for the regulator.
+The desing of the controller used in this project from an implementation point of view will be carried out in two different parts. 
+At first our goal is to be able to make the Segway balance using a single PID-regulator. This controller will be implemented to control the rotation of the Segway motors so that the angle of the segway, relative to the normal of the ground, always is zero. During this part we will use different methods, both analytic and empirical, to define appropiate parameter values for the regulator. 
 
- When this is achived and the Segway is able to balance our plan is to extend the controller and instead of one PID-regualtor use two cascaded coupled PID-regulators. The input to the outer PID will be the desired position of the Segway that signal will be used as input to the inner regulator which calculates the control signal to the motors. This would make it possible for us to both balance the Segway and to move it forward and backward. Setpoints will then be introduced to limit the signal to either of the wheels, this will make it possible to also steer the Segway to right or left.
+ When this is achived and the Segway is able to balance our plan is to extend the controller. The extended controller will consist of  two cascaded coupled PID-regulators instead of the single PID-regualtor used before. The input to the outer PID will be the desired position of the Segway that signal will be used as input to the inner regulator which calculates the control signal to the motors. This would make it possible for us to both balance the Segway and to move it forward and backward. Setpoints will then be introduced to limit the signal to either of the wheels, this will make it possible to also steer the Segway to right or left.
 
 
 
 %FRÅN INFÖR
-The system will be controlled using a single PID-controller. Since the only measurable output is the angle offset to the horizontal plane, the system can be controlled with a single controller, this angle will serve as our reference. The controller will need to be very precise when controlling the system, which suggests that all three parts of the controller will have to be used. Additionally, the parameters of the different parts will have to be fine-tuned in order to achieve stability.
-    Assuming that the sensor will output an analog signal, the controller has to be able to sample the signal to compute its control signal. Given the fact that a segway is very sensitive to errors, the controller will need to sample rather fast in order to keep the segway balanced at all times.
+%The system will be controlled using a single PID-controller. Since the only measurable output is the angle offset to the horizontal plane, the system can be controlled with a single controller, this angle will serve as our reference. The controller will need to be very precise when controlling the system, which suggests that all three parts of the controller will have to be used. Additionally, the parameters of the different parts will have to be fine-tuned in order to achieve stability.
+ %   Assuming that the sensor will output an analog signal, the controller has to be able to sample the signal to compute its control signal. Given the fact that a segway is very sensitive to errors, the controller will need to sample rather fast in order to keep the segway balanced at all times.
 
-To further stabilize the segway, state feedback will be used. This is to prevent the segway from falling due to slanting floors or dirt in its way. The segway should be able to balance regardless of where it is placed (within reasonable limits, of course).
+%To further stabilize the segway, state feedback will be used. This is to prevent the segway from falling due to slanting floors or dirt in its way. The segway should be able to balance regardless of where it is placed (within reasonable limits, of course).
 
 
 \section{Program}
