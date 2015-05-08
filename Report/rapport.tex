@@ -79,5 +79,21 @@ The program runned on the Segway is stored in the package called hardware (see f
 The Operator program (see figure 2 for UML-diagram)  contains a Main class that starts two threads. One, the CommunicationThread, reads the values of the signals from the Segway program and updates a monitor that contains the current values. PlotThread is used to read current signal values from the monitor and update the PlotOperatorGUI. There is two controller input GUI:s, ParameterGUI and ReferenceGUI that read the preferred reference value and parameters from the graphical interface and by using an actionhandler stores the new reference value in the monitor. The communication thread then reads the reference signal from the monitor and sends, if necessary, the new reference value to the Segway.
 
   %Detta blir en underunderrubrik
+\section{User Interface}
+
+\subsection{Running the Segway}
+The user uploads her program to the EV3 brick via Bluetooth. This is easily done through the leJOS-plugin for Eclipse. When the program is running on the segway, the user will have to use Telnet in order to connect to the segway to be able to run it. The IP-address of the EV3 brick can be found on the screen of the brick if wifi is enabled. Once connected, the user can input different commands which will be explained below.
+
+\begin{itemize}
+\item \textbf{start} - starts the controller, allowing the segway to stand
+\item \textbf{stop} - stops the controller, making the segway stop (and fall)
+\item \textbf{ku <value>} - changes the parameter $K_{u}$ of the controller to <value>
+\item \textbf{tu <value>} - changes the parameter $T_{u}$ of the controller to <value>
+\end{itemize}
+
+\noindent Using the command \textbf{stop} will not terminate the controller thread, meaning the segway can start again without having to restart the system and reconnecting using Telnet. Terminate the program, the user clicks the \"Stop Program\" button found in the leJOS GUI found in the leJOS Eclipse-plugin.
+
+\subsection{Plotter}
+
 
 \end{document}                 % The input file ends with this command.
