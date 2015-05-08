@@ -33,6 +33,7 @@ public class CommunicationThread implements Runnable {
 			client = serverSocket.accept();
 			is = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			os = new PrintWriter(client.getOutputStream(), true);
+			mon.setConnected(true);
 			System.out.println("Connection established");
 		} catch (IOException e1) {
 			System.out.println("Could not connect");

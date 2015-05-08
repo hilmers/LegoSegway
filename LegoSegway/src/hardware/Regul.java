@@ -1,6 +1,5 @@
 package hardware;
 
-
 public class Regul implements Runnable {
 	private Segway segway;
 	private SegwayMonitor mon;
@@ -9,6 +8,8 @@ public class Regul implements Runnable {
 	private PID angleController;
 	private GyroSensor gyro;
 	private ParameterMonitor parmon;
+	private AccSensor accSensor;
+	private CompFilter compFilter;
 
 	public Regul(Segway segway, SegwayMonitor mon, ParameterMonitor parmon, long h) {
 		this.segway = segway;
@@ -18,6 +19,8 @@ public class Regul implements Runnable {
 		gyro = segway.getGyro();
 		posController = new PID(PID.OUTER);
 		angleController = new PID(PID.INNER);
+		compFilter = new CompFilter(h);
+		accSensor = new AccSensor();
 	}
 
 	@Override
@@ -28,51 +31,48 @@ public class Regul implements Runnable {
 		double angle = 0.0;
 		double angularVel = 0.0;
 		System.out.println("Running...");
+		while (!parmon.isConnected()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
 
-
+			}
+		}
 		while (true) {
 			long start = System.currentTimeMillis();
 
-			//	synchronized(posController) {
-			//Calculate control signal
-			//		position = mon.getPosition();
-			//		u = posController.calculateOutput(position, 0.0);
+			// synchronized(posController) {
+			// Calculate control signal
+			// position = mon.getPosition();
+			// u = posController.calculateOutput(position, 0.0);
 
-			//Update state
-			//		posController.updateState(u);
+			// Update state
+			// posController.updateState(u);
 
-			synchronized(angleController) {
-				//Calculate control signal
-				//angle = mon.getAngle() + mon.getAngularVelocity();
+			synchronized (angleController) {
+				// Calculate control signal
+				// angle = mon.getAngle() + mon.getAngularVelocity();
 				angularVel = gyro.angleVelocity();
-				angle = gyro.getAngle() + angularVel;
-				// 	System.out.println(angle);
-			
-					
+				double gyroAngle = gyro.getAngle() + angularVel;
+				double accAngle = accSensor.getAccData();
+				angle = compFilter.compFilt(accAngle, gyroAngle);
+
 				v = angleController.calculateOutput(angle, 0.0);
-					
+
 				mon.setAngle(angle);
 				mon.setAngularVelocity(angularVel);
-				mon.setSpeed((int)Math.round(v));
+				mon.setSpeed((int) Math.round(v));
 				if (mon.forward()) {
 					segway.forward(limit(mon.getSpeed()), limit(mon.getSpeed()));
 				} else {
-					segway.backward(limit(mon.getSpeed()), limit(mon.getSpeed()));
-					
+					segway.backward(limit(mon.getSpeed()),
+							limit(mon.getSpeed()));
+
 				}
-				
-				
-				
-
-				//	System.out.println("angle: " + angle + " v: " + v);
-
-				//Update state
-
-				//System.out.println("angle: "+angle+"v : " + v);
 
 				if (v > 100 || v < -100) {
 					angleController.setIntegrator(false);
-					
+
 				} else {
 					angleController.setIntegrator(true);
 				}
@@ -83,6 +83,7 @@ public class Regul implements Runnable {
 				angleController.updateParameters(parmon.getKu(), parmon.getTu());
 				
 				//Run motor
+
 			}
 
 			long elapsed = System.currentTimeMillis() - start;
@@ -96,9 +97,8 @@ public class Regul implements Runnable {
 			segway.stop();
 		}
 
-		//}
+		// }
 	}
-	
 
 	private int limit(int j) {
 		int i = Math.abs(j);

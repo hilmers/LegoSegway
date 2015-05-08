@@ -1,8 +1,9 @@
 package hardware;
 
 public class ParameterMonitor {
-	private double Tu;
-	private double Ku;
+	private double Tu = 0.0;
+	private double Ku = 0.0;
+	private boolean connected = false;
 	
 	public synchronized void setTu(double Tu) {
 		this.Tu = Tu;
@@ -18,6 +19,15 @@ public class ParameterMonitor {
 	
 	public synchronized double getKu() {
 		return Ku;
+	}
+	
+	public synchronized void setConnected(boolean connected) {
+		this.connected = connected;
+		notifyAll();
+	}
+	
+	public synchronized boolean isConnected() {
+		return connected;
 	}
 	
 
