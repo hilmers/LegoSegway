@@ -5,14 +5,14 @@ public class CompFilter {
 
 	// h is the sample-time
 	public CompFilter(double h) {
-		this.h = h;
+		this.h = h / 1000;
 		eh = Math.exp(-h);
 	}
 
 	public double compFilt(double ya, double yg) {
 		yf = eh * yf + (1 - eh) * yas + yg - ygs;
-		ygs = yg; // Update s t a t e
-		yas = ya; // Update s t a t e
+		ygs = yg; // Update state
+		yas = ya; // Update state
 		return yf;
 	}
 
