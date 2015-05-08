@@ -19,7 +19,7 @@ public class Regul implements Runnable {
 		gyro = segway.getGyro();
 		posController = new PID(PID.OUTER);
 		angleController = new PID(PID.INNER);
-		compFilter = new CompFilter(h);
+		compFilter = new CompFilter((double)h);
 		accSensor = new AccSensor();
 	}
 
@@ -31,13 +31,11 @@ public class Regul implements Runnable {
 		double angle = 0.0;
 		double angularVel = 0.0;
 		System.out.println("Running...");
-		while (!parmon.isConnected()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-
-			}
-		}
+//		try {
+//			parmon.waitForConnection();
+//		} catch (InterruptedException e1) {
+//
+//		}
 		while (true) {
 			long start = System.currentTimeMillis();
 
@@ -53,12 +51,11 @@ public class Regul implements Runnable {
 				// Calculate control signal
 				// angle = mon.getAngle() + mon.getAngularVelocity();
 				angularVel = gyro.angleVelocity();
-				double gyroAngle = gyro.getAngle() + angularVel;
+				double gyroAngle = gyro.getAngle();
 				double accAngle = accSensor.getAccData();
 				angle = compFilter.compFilt(accAngle, gyroAngle);
-
 				v = angleController.calculateOutput(angle, 0.0);
-
+				System.out.println("controller out: " + v);
 				mon.setAngle(angle);
 				mon.setAngularVelocity(angularVel);
 				mon.setSpeed((int) Math.round(v));
@@ -80,7 +77,7 @@ public class Regul implements Runnable {
 
 				//This updates the controller parameters
 				//If they have not changed, the old value will be used
-				angleController.updateParameters(parmon.getKu(), parmon.getTu());
+//				angleController.updateParameters(parmon.getKu(), parmon.getTu());
 				
 				//Run motor
 

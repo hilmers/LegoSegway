@@ -1,8 +1,7 @@
 package hardware;
 
 public class ParameterMonitor {
-	private double Tu = 0.0;
-	private double Ku = 0.0;
+	private double Ku = 50000000.0, Tu = 20000.0;
 	private boolean connected = false;
 	
 	public synchronized void setTu(double Tu) {
@@ -28,6 +27,12 @@ public class ParameterMonitor {
 	
 	public synchronized boolean isConnected() {
 		return connected;
+	}
+
+	public synchronized void waitForConnection() throws InterruptedException {
+		while(!connected) {
+			wait();
+		}
 	}
 	
 
