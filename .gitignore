@@ -15,6 +15,15 @@ LegoSegway/local.properties
 LegoSegway/.classpath
 LegoSegway/.settings/
 LegoSegway/.loadpath
+Report/rapport.aux
+Report/rapport.bbl
+Report/rapport.blg
+Report/rapport.dvi
+Report/rapport.log
+Report/rapport.pdf
+Report/rapport.toc
+texput.log
+Report/.nfs0000000000e6044a0000004a
 RemoteSystemsTempFiles/
 /src/main/resources/rebel.xml
 # External tool builders

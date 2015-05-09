@@ -15,8 +15,10 @@
 
 \documentclass[a4paper]{article}
 
-\usepackage[T1]{fontenc}                % För svenska bokstäver
-\usepackage[swedish]{babel}             % För svensk avstavning och svenska
+\usepackage[T1]{fontenc}   
+\usepackage{graphicx}             % För svenska bokstäver
+\usepackage[swedish]{babel} 
+\usepackage{amsmath}            % För svensk avstavning och svenska
 \usepackage[hyphens]{url}                                  % rubriker (t ex "innehållsförteckning)
 \title{FRTN01 Project \\
 Group 1: Lego Segway}
@@ -38,23 +40,42 @@ Group 1: Lego Segway}
 \section{Introduction}          % Detta kommando gör en rubrik
 
 							       % Detta blir en underru
- This report is about our attempt to control a Segway build using Lego EV3 . Our objections for this project where to make the Segway to be able to self-balance, reject external disturbances and to be able to receive external commands for setpoint generation. This was done by first making a simple model of the problem that was used to design the controller. The the controller was then implemented in software that ran on the Segway. The project consisted of a couple of different steps. At first we had to build the actual Lego Segway, then we had to analyse the model to determine which type of controller to use. After desideing which type of controller to use we started with a simpler model and had to fine tune the parameter to make the Segway stabilize. The fine tuning was done by experiments. ... ... ... ... ... . .. ... ... 
+ This report is about our attempt to control a Segway built using Lego Mindstorms EV3\footnote{\url{http://www.lego.com/en-us/mindstorms/products/31313-mindstorms-ev3}} building system. Our objections for this project where to make the Segway to be able to self-balance, reject external disturbances and to be able to receive external commands for set-point generation. This was done by first making a simple model of the problem that was used to design the controller. The the controller was then implemented in software that ran on the Segway. The project consisted of a couple of different steps. At first we had to build the actual Lego Segway, then we had to analyze the model to determine which type of controller to use. After deciding which type of controller to use we started with a simpler model and had to fine tune the parameter to make the Segway stabilize. The fine tuning was done by experiments. ... ... ... ... ... . .. ... ... 
 
 
 
 
  \section{The Lego Segway}
- The Segway were built using the Lego Mindstorms EV3 set. We desided to use a Hightonic Gyrosensor which measures the current angular velocity as our only sensor, using that signal we were able to calculate the current angle of the Segway. On the EV3 brick we ran the firmware leJOS instead of the regular Mindstorms firmware. LejOS includes a JVM (Java Virtual Machine) which makes it possible to program the segway in java. EV3 Large Servo motors were used for controlling the wheels. By measuring the number of degrees the motor axis had rotated the position relative to the startpoint could be estimated. The relative position could the be derivied to form an estimate of the speed. 
+ The Segway was built using the Lego Mindstorms EV3 set. We decided to use a Hightonic Gyrosensor which measures the current angular velocity as our only sensor, using that signal we were able to calculate the current angle of the Segway. On the EV3 brick we ran the firmware leJOS instead of the regular Mindstorms firmware. LejOS includes a JVM (Java Virtual Machine) which makes it possible to program the Segway in Java. EV3 Large Servo motors were used for controlling the wheels. By measuring the number of degrees the motor axis had rotated the position relative to the start-point could be estimated. The relative position could the be derived to form an estimate of the speed. 
 
 \section{Segway Model}
-A segway is a inverted pendulum on a cart. To be able to keep the pendulum, in this case the segway, upright the cart has to move backward or forward to reject the forces of gravity. To be able achive this a controller of the carts wheels is introduced to minimize the tilt of pendulum on the cart. This implies that the pendulum falling forwards causes the cart to move forward. Simirially the cart has to move backward to reject the pendulum from falling backwards. 
+A Segway can be seen as and implementation of an inverted pendulum on a cart. The problem of the inverted pendulum works the same way as when one tries to balance a pen on palm of the hand. By moving the hand in different directions the falling motion of the pen is rejected and the pen is able to stand upright. In the case of a inverted pendulum on a cart instead of a pen and hand palm it is only possible to move the cart in two directions, forward and backwards simultaneously the pendulum can only fall in two different directions. As in the case of the pen and hand the cart has to move backward or forward to reject the forces of gravity To keep the pendulum on the cart upright. The inverted pendulum is a unstable system which implies that the pendulum without control, natural, will fall down. To be able achieve the cart to move and balance the pendulum a controller of the carts wheels is introduced to minimize the tilt of the pendulum on the cart. This implies that the pendulum falling forwards causes the cart to move forward. Similarly the cart has to move backward to reject the pendulum from falling backwards. 
 
 
 \section{Control Design}
-The desing of the controller used in this project from an implementation point of view will be carried out in two different parts. 
-At first our goal is to be able to make the Segway balance using a single PID-regulator. This controller will be implemented to control the rotation of the Segway motors so that the angle of the segway, relative to the normal of the ground, always is zero. During this part we will use different methods, both analytic and empirical, to define appropiate parameter values for the regulator. 
+The design of the controller used in this project from an implementation point of view will be carried out in two different parts. 
+At first our goal is to be able to make the Segway balance using a single PID-regulator. This controller will be implemented to control the rotation of the Segway motors so that the angle of the segway, relative to the normal of the ground, always is zero as seen in figure \ref{1}.
 
- When this is achived and the Segway is able to balance our plan is to extend the controller. The extended controller will consist of  two cascaded coupled PID-regulators instead of the single PID-regualtor used before. The input to the outer PID will be the desired position of the Segway that signal will be used as input to the inner regulator which calculates the control signal to the motors. This would make it possible for us to both balance the Segway and to move it forward and backward. Setpoints will then be introduced to limit the signal to either of the wheels, this will make it possible to also steer the Segway to right or left.
+\begin{figure}[h]
+    \label{1}
+    \centering
+    \includegraphics[width=0.8\textwidth]{process_one_regul.png}
+    \caption{Single PID-regulator controlling process}
+\end{figure}
+The PID-regulator is a very common regulator. It can be separated in to three different parts as is seen in the formulas(FRaN FoRELaSNING 8):
+\begin{equation}
+   u(t) = K(e(t) + \frac{1}{T_i}\int\limits_0^t e(\tau) \mathrm{d}\tau + T_d\frac{\mathrm d e(t)}{\mathrm d t})
+\end{equation}
+\begin{equation}
+   U(s) = KE(s) +  \frac{K}{sT_i}E(s) + KT_d s E(s)
+\end{equation}
+\begin{equation}
+   U(s) = P +  I + D
+\end{equation}
+The term P is callled the proportional term it calculates the control signal U depending of the size of the error $E = R - Y$ (where $R$ is the desired reference value and $Y$ the actual measured value). A $P$-regulator using only the $P$-term would tohugh generate a undesirable stationary error. That is the reason to use the $I$-part which grows in case of an stationary error and thus rejects it. The $D$-part extends the regulator even more by introducing an prediction and thus even more precise control.
+
+To define the appropriate parameter values for the regulator both analytic and empirical methods are to be used.
+ When this is achieved and the Segway is able to balance the controller are to be extended. The extended controller will consist of  two cascaded coupled PID-regulators instead of the single PID-regulator used before. The input to the outer PID will be the desired position of the Segway that signal will be used as input to the inner regulator which calculates the control signal to the motors. This would make it possible for us to both balance the Segway and to move it forward and backward. Set-points will then be introduced to limit the signal to either of the wheels, this will make it possible to also steer the Segway to right or left.
 
 
 
@@ -72,7 +93,7 @@ Our program consists of two different parts. One Segway program that runs on the
 %The program consists of two different parts. One Segway program that runs on the LEGO Mindstorm unit that handles the control of the Segway. The other program is the Operator program that runs on a computer and is used for setting the reference- and parameter values to the Segway. It is also used to plot the signals from the LEGO gyroscope, the calculated control signal and the reference value in a window. %Vilka signaler det nu är
 
 \subsection{Segway}
-The program runned on the Segway is stored in the package called hardware (see figure 1 for UML-diagram). It consists of a Main program that starts the controller thread (the \texttt{Regul} class) and the thread used for communication between the LEGO program and the Operator program called \texttt{CommunicationThread}. All shared data that between the threads are stored in a class called \texttt{Monitor}, this class contains synchronized get- and set-methods which enables the threads to share their data in a thread safe way. The controller is implemented in a class called Regul. Regul contains an instance of the class Segway which in its turn contains instances of the classes \texttt{SegwayMotor} and \texttt{GyroSensor} these classes contains methods to controll the motors and read gyroscope values. Using the values from the gyrosensor regulator calculates the control values that is sent to the motors by using instances of the class PID which is an implementation of a PID-regulator. The controller both limits the signals and uses anti-windup for the I-part of the controller. 
+The program that runs on the Segway is stored in the package called hardware (see figure 1 for UML-diagram). It consists of a Main program that starts the controller thread (the \texttt{Regul} class) and the thread used for communication between the LEGO program and the Operator program called \texttt{CommunicationThread}. All shared data that between the threads are stored in a class called \texttt{Monitor}, this class contains synchronized get- and set-methods which enables the threads to share their data in a thread safe way. The controller is implemented in a class called Regul. Regul contains an instance of the class Segway which in its turn contains instances of the classes \texttt{SegwayMotor} and \texttt{GyroSensor} these classes contains methods to control the motors and read gyroscope values. Using the values from the gyrosensor regulator calculates the control values that is sent to the motors by using instances of the class PID which is an implementation of a PID-regulator. The controller both limits the signals and uses anti-windup for the I-part of the controller. 
 
 
 \subsection{Operator}
@@ -105,7 +126,7 @@ Alot of the initial software development derived from the laboratory assignment 
 Quickly we aimed for our first milestone, making the segway self-balancing. After research and discussion it was clear that the segway needed a PI controller and a gyro sensor to achieve that. 
 
 \subsection{Software design}
-As stated above the initial skeleton was based on the "Ball and beam" process, which has a lot of similar design considerations as a segway. Någon med bättre koll på mjukvarudelen borde skriva här :)
+As stated above the initial skeleton was based on the "Ball and beam" process, which has a lot of similar design considerations as a segway. Någon med bättre koll på mjukvarudelen borde skriva här :)... Typ stycket Program jkan vi flytta hit senfrie
 
 \subsection{Physical design and hardware}
 Early on it was clear that the initial build of the segway had a lot of flaws. The position of the actual EV3 brick didn't give the segway equilibrium and there was no actual thought behind the design, besides making it tall for easier control. Tuning the PID parameters would not be an easy task with the present design. The solution was to rebuild it all, where stability and equilibrium was the main goal. After some research an advanced and robust design was found online, lego's official {\it Gyro Boy}   implementation\footnote{\url{http://robotsquare.com/wp-content/uploads/2013/10/45544_gyroboy.pdf}}, where our design consists of the vital parts in the tutorial. The design process is well documentet in our GitHub repository\footnote{\url{https://github.com/hilmers/LegoSegwayFRTN01}}. 
@@ -115,5 +136,12 @@ At this part the segway was robust and well-balanced, but the {\it HiTechnic Gyr
 Accelerometer ....      
 
 \subsection{Parameter tuning}
-With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning re  
+With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning resulted  
+
+
+\newpage
+%Källförtecknhing
+\bibliographystyle{unsrt}
+\bibliography{bibliography.bib}
+
 \end{document}                 % The input file ends with this command.

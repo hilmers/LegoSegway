@@ -14,41 +14,43 @@ public class GyroSensor {
 	private double angle = 0;
 	private float drift = 0;
 	private double nbrOfSamples = 0;
+
 	public GyroSensor(float sampleTime) {
 		gyro = new HiTechnicGyro(SensorPort.S2);
-		filter = new LowPassFilter(gyro, 0.1f);
+		filter = new LowPassFilter(gyro, sampleTime);
 		sample = new float[gyro.sampleSize()];
 	}
 
 	public synchronized double angleVelocity() {
 		filter.fetchSample(sample, 0);
-	
-		int	sampleSize = gyro.sampleSize();
-		
-		//offset = ((sampleSize - 1) * offset + (sample[0] / sampleSize));
+
 		drift += sample[0] + 0.3;
 		nbrOfSamples++;
 		offset = (double) drift / nbrOfSamples;
-	
-		
-		//System.out.println(sample[0] + offset);
+
 		double samp = sample[0] + offset;
-		if (samp > - 4 && samp  < 4) samp = 0;
-		
+		/*
+		 * if (samp > -5 && samp < 5) { samp = 0; }
+		 */
+
 		return samp;
 	}
 
 	public double getAngle() {
-		if (!checkedTimeFirstTime) { 
+
+		if (!checkedTimeFirstTime) {
 			time = System.currentTimeMillis();
 			checkedTimeFirstTime = true;
 		}
+
 		diff = System.currentTimeMillis() - time;
 		time += diff;
-		angle = angle + (angleVelocity() * ((double) diff/1000));
-		//System.out.println("diff " + diff);
-		
-		if (angle > -1 && angle < 1) angle = 0;
+		angle = angle + (angleVelocity() * ((double) diff / 1000));
+
+		/*
+		 * if (angle > -5 && angle < 5) { angle = 0; }
+		 */
+
 		return angle;
 
 	}
