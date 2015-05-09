@@ -15,7 +15,8 @@
 
 \documentclass[a4paper]{article}
 
-\usepackage[T1]{fontenc}                % För svenska bokstäver
+\usepackage[T1]{fontenc}   
+\usepackage{graphicx}             % För svenska bokstäver
 \usepackage[swedish]{babel} 
 \usepackage{amsmath}            % För svensk avstavning och svenska
 \usepackage[hyphens]{url}                                  % rubriker (t ex "innehållsförteckning)
@@ -53,7 +54,14 @@ A Segway can be seen as and implementation of an inverted pendulum on a cart. Th
 
 \section{Control Design}
 The design of the controller used in this project from an implementation point of view will be carried out in two different parts. 
-At first our goal is to be able to make the Segway balance using a single PID-regulator. This controller will be implemented to control the rotation of the Segway motors so that the angle of the segway, relative to the normal of the ground, always is zero.
+At first our goal is to be able to make the Segway balance using a single PID-regulator. This controller will be implemented to control the rotation of the Segway motors so that the angle of the segway, relative to the normal of the ground, always is zero as seen in figure \ref{1}.
+
+\begin{figure}[h]
+    \label{1}
+    \centering
+    \includegraphics[width=0.8\textwidth]{process_one_regul.png}
+    \caption{Single PID-regulator controlling process}
+\end{figure}
 The PID-regulator is a very common regulator. It can be separated in to three different parts as is seen in the formulas(FRaN FoRELaSNING 8):
 \begin{equation}
    u(t) = K(e(t) + \frac{1}{T_i}\int\limits_0^t e(\tau) \mathrm{d}\tau + T_d\frac{\mathrm d e(t)}{\mathrm d t})
@@ -120,16 +128,20 @@ Quickly we aimed for our first milestone, making the segway self-balancing. Afte
 \subsection{Software design}
 As stated above the initial skeleton was based on the "Ball and beam" process, which has a lot of similar design considerations as a segway. Någon med bättre koll på mjukvarudelen borde skriva här :)... Typ stycket Program jkan vi flytta hit senfrie
 
-\subsection{Physical design}
-Early on it was clear that the initial build of the segway had a lot of flaws. The position of the actual EV3 brick didn't give the segway equilibrium and there was no actual thought behind the design, besides making it tall for easier control. Tuning the PID parameters would not be an easy task with the present design. The solution was to rebuild it all, where stability and equilibrium was the main goal. After some research an advanced and robust design was found online, lego's official {\it Gyro Boy}   implementation\footnote{\url{http://robotsquare.com/wp-content/uploads/2013/10/45544_gyroboy.pdf}}, where our design consists of the vital parts in the tutorial. The design process is well documentet in our GitHub repository\footnote{\url{https://github.com/hilmers/LegoSegwayFRTN01}}.    
+\subsection{Physical design and hardware}
+Early on it was clear that the initial build of the segway had a lot of flaws. The position of the actual EV3 brick didn't give the segway equilibrium and there was no actual thought behind the design, besides making it tall for easier control. Tuning the PID parameters would not be an easy task with the present design. The solution was to rebuild it all, where stability and equilibrium was the main goal. After some research an advanced and robust design was found online, lego's official {\it Gyro Boy}   implementation\footnote{\url{http://robotsquare.com/wp-content/uploads/2013/10/45544_gyroboy.pdf}}, where our design consists of the vital parts in the tutorial. The design process is well documentet in our GitHub repository\footnote{\url{https://github.com/hilmers/LegoSegwayFRTN01}}. 
+\\[3ex]
+At this part the segway was robust and well-balanced, but the {\it HiTechnic Gyro Sensor} introduced some issues. It was quickly discovered that the Gyro had a habit to cause drift. The drift affected the segway's zero point position, in which it is self-balanced. The problem could partially be derived from the EV3 battery, lower battery levels lead to higher drift. But even with a fully-loaded or even plugged in battery there was a drift problem. By introducing a Low Pass Filter in the {\it Gyro Sensor} class the problem was minimized, but still present. Adding an empirically developed constant to the sampled value from the Low Pass Filter proved effective. The produced drift constant was divided by the amount of samples to give a relevant offset. Research on the internet showed that this was a well known problem with the {\it HiTechnic Gyro Sensor} and a perfect solution was yet to be found. 
+\\[3ex]
+Accelerometer ....      
 
 \subsection{Parameter tuning}
+With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning resulted  
 
 
 \newpage
 %Källförtecknhing
 \bibliographystyle{unsrt}
 \bibliography{bibliography.bib}
-
 
 \end{document}                 % The input file ends with this command.
