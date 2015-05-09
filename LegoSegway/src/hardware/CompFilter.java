@@ -23,7 +23,7 @@ public class CompFilter {
 
 		double accY = Math.toDegrees((Math.atan2(accX, accZ) + Math.PI))
 				- OFFSET;
-		angle = (0.98 * (angle + (angularVelocity * dt)) + 0.02 * accY);
+		angle = (0.9 * (angle + (angularVelocity * dt)) + 0.1 * accY);
 
 		return angle;
 	}
