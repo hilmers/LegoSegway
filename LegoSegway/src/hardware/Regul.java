@@ -32,22 +32,26 @@ public class Regul implements Runnable {
 		double angle = 0.0;
 		double angularVel = 0.0;
 		System.out.println("Running...");
+<<<<<<< HEAD
 		// try {
 		// parmon.waitForConnection();
 		// } catch (InterruptedException e1) {
 		//
 		// }
+=======
+		//		try {
+		//			parmon.waitForConnection();
+		//		} catch (InterruptedException e1) {
+		//
+		//		}
+>>>>>>> 04805a12fe09556da25d5f1e3de7bf75017961b8
 		while (true) {
 			long start = System.currentTimeMillis();
+			if (parmon.isRunning()) {
 
-			// synchronized(posController) {
-			// Calculate control signal
-			// position = mon.getPosition();
-			// u = posController.calculateOutput(position, 0.0);
 
-			// Update state
-			// posController.updateState(u);
 
+<<<<<<< HEAD
 			boolean controlled = false;
 			synchronized (angleController) {
 				controlled = false;
@@ -79,11 +83,36 @@ public class Regul implements Runnable {
 					if (mon.forward()) {
 						segway.forward(limit(mon.getSpeed()),
 								limit(mon.getSpeed()));
+=======
+				// synchronized(posController) {
+				// Calculate control signal
+				// position = mon.getPosition();
+				// u = posController.calculateOutput(position, 0.0);
+
+				// Update state
+				// posController.updateState(u);
+
+				synchronized (angleController) {
+					// Calculate control signal
+					// angle = mon.getAngle() + mon.getAngularVelocity();
+					angularVel = gyro.angleVelocity();
+					double gyroAngle = gyro.getAngle();
+					double accAngle = accSensor.getAccData();
+					angle = compFilter.compFilt(accAngle, gyroAngle);
+					v = angleController.calculateOutput(angle, 0.0);
+					System.out.println("controller out: " + v);
+					mon.setAngle(angle);
+					mon.setAngularVelocity(angularVel);
+					mon.setSpeed((int) Math.round(v));
+					if (mon.forward()) {
+						segway.forward(limit(mon.getSpeed()), limit(mon.getSpeed()));
+>>>>>>> 04805a12fe09556da25d5f1e3de7bf75017961b8
 					} else {
 						segway.backward(limit(mon.getSpeed()),
 								limit(mon.getSpeed()));
 
 					}
+<<<<<<< HEAD
 				}
 
 				if (v > 100 || v < -100) {
@@ -101,8 +130,25 @@ public class Regul implements Runnable {
 
 				// Run motor
 
-			}
+=======
 
+					if (v > 100 || v < -100) {
+						angleController.setIntegrator(false);
+
+					} else {
+						angleController.setIntegrator(true);
+					}
+					angleController.updateState(v);
+
+					//This updates the controller parameters
+					//If they have not changed, the old value will be used
+					//				angleController.updateParameters(parmon.getKu(), parmon.getTu());
+
+					//Run motor
+
+				}
+>>>>>>> 04805a12fe09556da25d5f1e3de7bf75017961b8
+			}
 			long elapsed = System.currentTimeMillis() - start;
 			if (elapsed < h) {
 				try {

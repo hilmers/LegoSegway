@@ -33,7 +33,6 @@ public class CommunicationThread implements Runnable {
 			client = serverSocket.accept();
 			is = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			os = new PrintWriter(client.getOutputStream(), true);
-			mon.setConnected(true);
 			System.out.println("Connection established");
 		} catch (IOException e1) {
 			System.out.println("Could not connect");
@@ -43,24 +42,30 @@ public class CommunicationThread implements Runnable {
 				String message = is.readLine();
 				message = message.trim();
 				if (message.length() > 2) {
-					String s = message.substring(2);
-					s = s.trim();
-					double val = 0;
-					try {
-						val = Double.parseDouble(s);
-					} catch (NumberFormatException e) {
-						os.write("NaN, try again!\n");
-						os.flush();
-						continue;
-					}
-					if (message.startsWith("tu")) {
-						mon.setTu(val);
-						os.write("Tu changed to: " + val + "\n");
-					} else if (message.startsWith("ku")) {
-						mon.setKu(val);
-						os.write("Ku changed to: " + val);
+					if (message.startsWith("start")) {
+						startRegul();
+					} else if (message.startsWith("stop")) {
+						stopRegul();
 					} else {
-						os.write("not a supported command\n");
+						String s = message.substring(2);
+						s = s.trim();
+						double val = 0;
+						try {
+							val = Double.parseDouble(s);
+						} catch (NumberFormatException e) {
+							os.write("NaN, try again!\n");
+							os.flush();
+							continue;
+						}
+						if (message.startsWith("tu")) {
+							mon.setTu(val);
+							os.write("Tu changed to: " + val + "\n");
+						} else if (message.startsWith("ku")) {
+							mon.setKu(val);
+							os.write("Ku changed to: " + val);
+						} else {
+							os.write("not a supported command\n");
+						}
 					}
 				} else {
 					os.write("not a supported command\n");
@@ -73,6 +78,12 @@ public class CommunicationThread implements Runnable {
 
 		}
 
+	}
+	private void stopRegul() {
+		mon.setRunning(false);
+	}
+	private void startRegul() {
+		mon.setRunning(true);
 	}
 
 }

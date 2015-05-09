@@ -2,7 +2,7 @@ package hardware;
 
 public class ParameterMonitor {
 	private double Ku = 50000000.0, Tu = 20000.0;
-	private boolean connected = false;
+	private boolean running = false;
 	
 	public synchronized void setTu(double Tu) {
 		this.Tu = Tu;
@@ -20,17 +20,17 @@ public class ParameterMonitor {
 		return Ku;
 	}
 	
-	public synchronized void setConnected(boolean connected) {
-		this.connected = connected;
+	public synchronized void setRunning(boolean running) {
+		this.running = running;
 		notifyAll();
 	}
 	
-	public synchronized boolean isConnected() {
-		return connected;
+	public synchronized boolean isRunning() {
+		return running;
 	}
 
 	public synchronized void waitForConnection() throws InterruptedException {
-		while(!connected) {
+		while(!running) {
 			wait();
 		}
 	}
