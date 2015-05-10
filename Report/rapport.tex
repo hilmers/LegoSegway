@@ -23,10 +23,10 @@
 \title{FRTN01 Project \\
 Group 1: Lego Segway}
 \author{
-		Kristoffer Hilmersson, dat11khi@student.lu.se\\
-		Alexander Karlsson, dat11aka@student.lu.se\\
-		Erik Stenlund, zba10est@student.lu.se\\
-		Axel Ahlbeck, dat11aah@student.lu.se}
+    Kristoffer Hilmersson, dat11khi@student.lu.se\\
+    Alexander Karlsson, dat11aka@student.lu.se\\
+    Erik Stenlund, zba10est@student.lu.se\\
+    Axel Ahlbeck, dat11aah@student.lu.se}
        % Blir dagens datum om det utelämnas
 
 \begin{document}
@@ -39,14 +39,14 @@ Group 1: Lego Segway}
 
 \section{Introduction}          % Detta kommando gör en rubrik
 
-							       % Detta blir en underru
- This report is about our attempt to control a Segway built using Lego Mindstorms EV3\footnote{\url{http://www.lego.com/en-us/mindstorms/products/31313-mindstorms-ev3}} building system. Our objections for this project where to make the Segway to be able to self-balance, reject external disturbances and to be able to receive external commands for set-point generation. This was done by first making a simple model of the problem that was used to design the controller. The the controller was then implemented in software that ran on the Segway. The project consisted of a couple of different steps. At first we had to build the actual Lego Segway, then we had to analyse the model to determine which type of controller to use. After deciding which type of controller to use we started with a simpler model and had to fine tune the parameter to make the Segway stabilise. The fine tuning was done by experiments. ... ... ... ... ... . .. ... ... 
 
+                     % Detta blir en underru
+ This report is about our attempt to control a Segway built using the Lego Mindstorm EV3\footnote{\url{http://www.lego.com/en-us/mindstorms/products/31313-mindstorms-ev3}} building system. Our objectives for this project were to make the Segway able to self-balance, reject external disturbances and receive external commands for set-point generation. This was done by first making a simple model of the problem that was used to design the controller. The controller was then implemented in software that ran on the Segway. The task consisted of a few different steps. First the actual LEGO Segway had to be built, followed by an analysis of the model to determine which type of controller to use. After deciding which type of controller to use, the process of tuning the parameters for the controller started. The fine tuning was done by experiments. 
 
 
 
  \section{The Lego Segway}
- The Segway was built using the Lego Mindstorms EV3 set. We decided to use a Hitechnic Gyroscopic sensor which measures the current angular velocity as our only sensor, using that signal we were able to calculate the current angle of the Segway. On the EV3 brick we ran the firmware leJOS instead of the regular Mindstorms firmware. LejOS includes a JVM (Java Virtual Machine) which makes it possible to program the Segway in Java. EV3 Large Servo motors were used for controlling the wheels. By measuring the number of degrees the motor axis had rotated the position relative to the start-point could be estimated. The relative position could the be derived to form an estimate of the speed. 
+ The Segway was built using the Lego Mindstorm EV3 set. A Hi Technic Gyrosensor was chosen as output for the process, since it measures the current angular velocity. Using the values from the sensor the Segway's current angle was calculated. The EV3 brick ran the firmware leJOS instead of the regular Mindstorm firmware. lejOS was chosen because it has a built in JVM (Java Virtual Machine) which makes it possible for the hardware to run and compile Java code. EV3 Large Servo motors were used for controlling the wheels. By measuring the number of degrees the motor axis had rotated the position relative to the start-point could be estimated. The relative position could then be derived to form an estimate of the speed. 
 
 \section{Segway Model}
 A Segway can be seen as and implementation of an inverted pendulum on a cart. The problem of the inverted pendulum works the same way as when one tries to balance a pen on palm of the hand. By moving the hand in different directions the falling motion of the pen is rejected and the pen is able to stand upright. In the case of a inverted pendulum on a cart instead of a pen and hand palm it is only possible to move the cart in two directions, forward and backwards simultaneously the pendulum can only fall in two different directions. As in the case of the pen and hand the cart has to move backward or forward to reject the forces of gravity To keep the pendulum on the cart upright. The inverted pendulum is a unstable system which implies that the pendulum without control, natural, will fall down. To be able achieve the cart to move and balance the pendulum a controller of the carts wheels is introduced to minimise the tilt of the pendulum on the cart. This implies that the pendulum falling forwards causes the cart to move forward. Similarly the cart has to move backward to reject the pendulum from falling backwards. 
