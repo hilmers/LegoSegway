@@ -58,7 +58,7 @@ public class Regul implements Runnable {
 				// double gyroAngle = gyro.getAngle() + angularVel;
 				// double accAngle = accSensor.getAccData();
 				angle = compFilter.compFilt(angularVel);
-				if (angle < 3.5 && angle > -1) {
+				if (angle < 2 && angle > 0) {
 					angle = 0;
 				}
 				v = 0.0;
@@ -111,7 +111,7 @@ public class Regul implements Runnable {
 					System.out.println("controller was not able to sleep");
 				}
 			}
-			segway.stop();
+			//segway.stop();
 		}
 
 		// }
