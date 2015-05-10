@@ -143,6 +143,13 @@ The model that is implemented in the Segway robot only use a gyroscopic sensor. 
 \end{displaymath}
 where $\beta_g$ was the signal of the gyroscope sensor and $\beta_a$ was the signal of the accelerometer signal. Unfortunately, the implemented filter never worked as intended. The reason may be that the values collected from the accelerometer sensor were cumbersome to interpret, and the sensor manufacturer lacked sufficient documentation on how to collect data. Therefore, the model with a complementary filter was rejected.
 
+\subsection{Single PID-Controller or Cascaded Controller}
+Using only one PID-controller has had its pros and cons. On one hand it made for a lot less tuning of parameters, but on the other it did not give as good results as expected.
+
+The controller used the the output from the gyrosensor to calculate the control signal, and as the error decreased the control signal would shrink in magnitude. This was of course the desired behavior, but it brought up a flaw in the design - the seqway could not stay stationary and upright. While the controller was working on keeping the angle at zero, it disregarded the relative position of the motors. This meant that the Segway, to stay upright, would move slightly and then stop to prevent itself from falling. However, the upper part of the Segway would keep the momentum from the aforementioned movement, resulting in the Segway having to correct itself again. As this continued, the velocity of the Segway would increase and ultimately prove to be to much for the motors to cope, resulting in a fall. The controller tried to keep the angle at zero, regardless of the velocity.
+\\[3ex]
+To solve this, a second PID-controller could have been used. A cascaded controller would be able to handle both the angle and the position of the Segway. So, potentially, the controller for the angle could have had the difference in position as it's reference value. By controlling this way, steering would also have been possible. Unfortunately too much focus was used on dealing with the drift in the gyroscope, so this was never implemented.
+
 \newpage
 %Källförtecknhing
 \bibliographystyle{unsrt}
