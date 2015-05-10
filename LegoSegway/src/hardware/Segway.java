@@ -1,30 +1,36 @@
 package hardware;
-
+import lejos.hardware.motor.UnregulatedMotor;
+import lejos.hardware.port.MotorPort;
+import lejos.robotics.EncoderMotor;
 public class Segway {
-	private SegwayMotor leftMotor;
-	private SegwayMotor rightMotor;
+	private EncoderMotor leftMotor;
+	private EncoderMotor rightMotor;
 	private double distancePerDegree, prevPos;
 	private boolean checkedTimeFirstTime = false;
 	private long lastSample, time;
 
 	private GyroSensor gyro;
 
-	public Segway(SegwayMotor leftMotor, SegwayMotor rightMotor, GyroSensor gyro) {
-		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
-		this.gyro = gyro;
+	public Segway() {
+		this.leftMotor = new UnregulatedMotor(MotorPort.C);
+		this.rightMotor = new UnregulatedMotor(MotorPort.B);
+		this.gyro = new GyroSensor(40 / 1000 );
 		distancePerDegree = 0.00071558;
 
 	}
 
 	public void forward(int leftSpeed, int rightSpeed) {
-		leftMotor.rotateForward(leftSpeed);
-		rightMotor.rotateForward(rightSpeed);
+		leftMotor.setPower(leftSpeed);
+		rightMotor.setPower(rightSpeed);
+		leftMotor.forward();
+		rightMotor.forward();
 	}
 
 	public void backward(int leftSpeed, int rightSpeed) {
-		leftMotor.rotateBackward(leftSpeed);
-		rightMotor.rotateBackward(rightSpeed);
+		leftMotor.setPower(leftSpeed);
+		rightMotor.setPower(rightSpeed);
+		leftMotor.backward();
+		rightMotor.backward();
 	}
 
 	public void stop() {

@@ -2,7 +2,7 @@ package hardware;
 
 public class PID {
 	private double beta, K, N, Td, Ti, Tr, Kp0, Ku, Tu = 0.0; // parameters
-	private long h = 40;
+	private long h = 1/40;
 	private double ad, bd = 0.0;
 	private double I, D = 0.0;
 	private double e, v, yOld = 0.0;
@@ -16,22 +16,22 @@ public class PID {
 			// Ku ultimate gain / constant amplitude
 			// Tu oscillation period
 
-			Ku = 100.0;
-			Tu = 50.0; // 20?
-			beta = 1.0;
+//			Ku = 100.0;
+//			Tu = 50.0; // 20?
+//			beta = 1.0;
+//			integratorOn = true;
+//			K = 0.6 * Ku;
+//			Ti = 2 * K / Tu;
+//			Tr = 10.0;
+//			Td = K * Tu / 8.0;
+//			N = 18;
 			integratorOn = true;
-			K = 0.6 * Ku;
-			Ti = 2 * K / Tu;
-			Tr = 10.0;
-			Td = K * Tu / 8.0;
-			N = 18;
-
-			// K = 28.0;
-			// Ti = 4.0;
-			// Td = 33.0;
-			// N = 18.0;
-			// Tr = 10.0;
-			// beta = 10.0;
+			K = 10.0; //wo norm 3 //15 // 13.0
+			 Ti = 0.25;//4 //2 0.05
+			Td = 6.0; //2 6.0
+			 N = 18.0; //18
+			 Tr = 10.0;
+			 beta = 10.0;
 
 		} else if (type == OUTER) {
 			// Parameters in case controlling the outer loop
@@ -45,7 +45,7 @@ public class PID {
 			Td = 100 * 0.000504;
 			N = 5;
 		}
-		ad = Td / (Td + N * 0.02); // H = 0.02
+		ad = Td / (Td + N * h); // H = 0.02
 		bd = K * ad * N;
 	}
 
@@ -61,11 +61,10 @@ public class PID {
 	 */
 	public synchronized double calculateOutput(double y, double ref) {
 		e = ref - y;
-		// D = ad * D - bd * (y - yOld);
-		// yOld = y;
-		// v = K * (beta * ref - y) + I + D;
-		double pid_val = K * (1 + Ti + Td) * e / N;
-		return pid_val;
+	 D = ad * D - bd * (y - yOld);
+		 yOld = y;
+		 v = K * e + I + D;
+		 return v;
 	}
 
 	/**
