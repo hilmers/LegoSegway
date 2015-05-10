@@ -136,7 +136,9 @@ At this part the segway was robust and well-balanced, but the {\it HiTechnic Gyr
 Accelerometer ....      
 
 \subsection{Parameter tuning}
-With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning resulted  
+With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning resulted in hopeful development where the segway showed intentions of working, but it was quickly realised that a more precise plan was required.
+\\[3ex]
+The Ziegler-Nichols method\footnote{\url{http://en.wikipedia.org/wiki/Ziegler-Nichols_method}} was used to optimize the parameters for our PID, and the result proved quite successful. 
 
 
 \newpage
