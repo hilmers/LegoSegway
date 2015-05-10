@@ -49,25 +49,20 @@ Group 1: Lego Segway}
  The Segway was built using the Lego Mindstorm EV3 set. A Hi Technic Gyrosensor was chosen as output for the process, since it measures the current angular velocity. Using the values from the sensor the Segway's current angle was calculated. The EV3 brick ran the firmware leJOS instead of the regular Mindstorm firmware. lejOS was chosen because it has a built in JVM (Java Virtual Machine) which makes it possible for the hardware to run and compile Java code. EV3 Large Servo motors were used for controlling the wheels. By measuring the number of degrees the motor axis had rotated the position relative to the start-point could be estimated. The relative position could then be derived to form an estimate of the speed. 
 
 \section{Segway Model}
-
-A Segway can be seen as and implementation of an inverted pendulum on a cart. The problem of the inverted pendulum works the same way as when one tries to balance a pen on palm of the hand. By moving the hand in different directions the falling motion of the pen is rejected and the pen is able to stand upright. In the case of an inverted pendulum on a cart instead of a pen and hand it is only possible to move the cart in two directions, forward and backwards. Similarly, the pendulum can only fall in two different directions. As in the case of the pen and hand the cart has to move backward or forward to reject the forces of gravity to keep the pendulum on the cart upright. The inverted pendulum is an unstable system which implies that the pendulum  will fall down unless controlled. To move the cart and balance the pendulum a controller of the carts wheels was introduced. This implies that the pendulum falling forwards causes the cart to move forward. Similarly the cart would have to move backward to reject the pendulum from falling backwards. 
+A Segway can be seen as and implementation of an inverted pendulum on a cart. The problem of the inverted pendulum works the same way as when one tries to balance a pen on palm of the hand. By moving the hand in different directions the falling motion of the pen is rejected and the pen is able to stand upright. In the case of a inverted pendulum on a cart instead of a pen and hand palm it is only possible to move the cart in two directions, forward and backwards simultaneously the pendulum can only fall in two different directions. As in the case of the pen and hand the cart has to move backward or forward to reject the forces of gravity To keep the pendulum on the cart upright. The inverted pendulum is a unstable system which implies that the pendulum without control, natural, will fall down. To be able achieve the cart to move and balance the pendulum a controller of the carts wheels is introduced to minimise the tilt of the pendulum on the cart. This implies that the pendulum falling forwards causes the cart to move forward. Similarly the cart has to move backward to reject the pendulum from falling backwards. 
 
 
 \section{Control Design}
-The design of the controller used in this project from an implementation point of view was carried out in two different parts. 
-At first, the goal was to make the Segway balance by itself using a single PID-regulator. This controller was implemented to control the rotation of the Segway's motors so that the angle of the segway, relative to the normal of the ground, always was zero, as seen in figure \ref{1}.
-
+The design of the controller used in this project from an implementation point of view will be carried out in two different parts. 
+At first our goal is to be able to make the Segway balance using a single PID-regulator. This controller will be implemented to control the rotation of the Segway motors so that the angle of the Segway, relative to the normal of the ground, always is zero as seen in figure \ref{1}.
 
 \begin{figure}[h]
+    \label{1}
     \centering
     \includegraphics[width=0.8\textwidth]{process_one_regul.png}
     \caption{Single PID-regulator controlling process}
-    \label{1}
 \end{figure}
-
-\subsection{The PID-controller}
-The PID-controller is a very common controller. It can be separated in to three different parts as is seen in the formulae(FRaN FoRELaSNING 8):
-
+The PID-regulator is a very common regulator. It can be separated in to three different parts as is seen in the formulae (FRaN FoRELaSNING 8):
 \begin{equation}
    u(t) = K(e(t) + \frac{1}{T_i}\int\limits_0^t e(\tau) \mathrm{d}\tau + T_d\frac{\mathrm d e(t)}{\mathrm d t})
 \end{equation}
@@ -77,10 +72,10 @@ The PID-controller is a very common controller. It can be separated in to three 
 \begin{equation}
    U(s) = P +  I + D
 \end{equation}
+The term P is called the proportional term it calculates the control signal U depending of the size of the error $E = R - Y$ (where $R$ is the desired reference value and $Y$ the actual measured value). A $P$-regulator using only the $P$-term would though generate a undesirable stationary error. That is the reason to use the $I$-part which grows in case of an stationary error and thus rejects it. The $D$-part extends the regulator even more by introducing an prediction and thus even more precise control.
 
-The term P is called the proportional term, and it calculates the control signal U depending of the size of the error $E = R - Y$ (where $R$ is the desired reference value and $Y$ the actual measured value). However, using only a $P$-controller could generate an undesirable stationary error. That is the reason to use the $I$-part which grows in case of an stationary error and thus minimising it. The $D$-part extends the regulator even more by introducing prediction and thus even more precise control.
-
-To define the appropriate parameter values for the controller both analytic and empirical methods were used. Intitially, the controller used only the $P$ and $I$ parts. When stability was achieved for this configuration, the $D$-part was calibrated to give a smooth controlling of the Segway. To minimise impact of drift in the gyro sensor, a feed-forward loop was also introduced. The signal from the sensor is filtered through a low pass filter and then an offset is added to account for the increasing magnitude of the disturbance.
+To define the appropriate parameter values for the regulator both analytic and empirical methods are to be used.
+ When this is achieved and the Segway is able to balance the controller are to be extended. The extended controller will consist of  two cascaded coupled PID-regulators instead of the single PID-regulator used before. The input to the outer PID will be the desired position of the Segway that signal will be used as input to the inner regulator which calculates the control signal to the motors. This would make it possible for us to both balance the Segway and to move it forward and backward. Set-points will then be introduced to limit the signal to either of the wheels, this will make it possible to also steer the Segway to right or left.
 
 
 
@@ -140,8 +135,15 @@ At this part the Segway was robust and well-balanced, but the {\it HiTechnic Gyr
 Accelerometer ....      
 
 \subsection{Parameter tuning}
-With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning resulted  
+With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning resulted.
 
+\section{Discussion}
+The model that is implemented in the Segway robot only use a gyroscopic sensor. For pose estimation another solution was examined and analysed. The sought solution was a working complementary filter, which used a low-pass filtered signal from the accelerometer and a high-passed filtered and integrated signal from a accelerometer sensor. The output of the filter was a weighted sum of the two signals, which was then used as a value on the angle 
+ 
+\begin{displaymath}
+\theta = \alpha \beta_{g} + (1-\alpha)\beta_{a}
+\end{displaymath}
+where $\beta_g$ was the signal of the gyroscope sensor and $\beta_a$ was the signal of the accelerometer signal. Unfortunately, the implemented filter never worked as intended. The reason may be that the values collected from the accelerometer sensor were cumbersome to interpret, and the sensor manufacturer lacked sufficient documentation on how to collect data. Therefore, the model with a complementary filter was rejected.
 
 \newpage
 %Källförtecknhing
