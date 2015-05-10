@@ -7,7 +7,7 @@ public class Main {
 	public static void main(String[] args) {
 		SegwayMotor left = new SegwayMotor(new UnregulatedMotor(MotorPort.C));
 		SegwayMotor right = new SegwayMotor(new UnregulatedMotor(MotorPort.B));
-		long time = 50;
+		long time = 40;
 		GyroSensor gyro = new GyroSensor(time / 1000 );
 		Segway segway = new Segway(left, right, gyro); // har tagit bort gyro
 														// (3)

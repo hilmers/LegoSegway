@@ -29,9 +29,6 @@ public class GyroSensor {
 		offset = (double) drift / nbrOfSamples;
 
 		double samp = sample[0] + offset;
-		/*
-		 * if (samp > -5 && samp < 5) { samp = 0; }
-		 */
 
 		return samp;
 	}
@@ -46,10 +43,6 @@ public class GyroSensor {
 		diff = System.currentTimeMillis() - time;
 		time += diff;
 		angle = angle + (angleVelocity() * ((double) diff / 1000));
-
-		/*
-		 * if (angle > -5 && angle < 5) { angle = 0; }
-		 */
 
 		return angle;
 

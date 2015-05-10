@@ -16,15 +16,20 @@ public class PID {
 			// Ku ultimate gain / constant amplitude
 			// Tu oscillation period
 
-			/*
-			 * Ku = 1000.0; Tu = 40.0; // 20? beta = 1.0; integratorOn = true; K
-			 * = 0.6 * Ku; Ti = 2 * K / Tu; Tr = 5.0; Td = K * Tu / 8.0; N = 10;
-			 */
+//			Ku = 100.0;
+//			Tu = 50.0; // 20?
+//			beta = 1.0;
+//			integratorOn = true;
+//			K = 0.6 * Ku;
+//			Ti = 2 * K / Tu;
+//			Tr = 10.0;
+//			Td = K * Tu / 8.0;
+//			N = 18;
 
 			K = 28.0;
 			Ti = 4.0;
 			Td = 33.0;
-			N = 25.0;
+			N = 18.0;
 			Tr = 10.0;
 			beta = 10.0;
 
@@ -58,9 +63,11 @@ public class PID {
 		e = ref - y;
 		// D = ad * D - bd * (y - yOld);
 		// yOld = y;
-		// v = K * (beta * ref - y) + I + D;
+		//D = 
+		//v = K * (beta * ref - y) + I;
 		double pid_val = K * (1 + Ti + Td) * e / N;
 		return pid_val;
+		//return v;
 	}
 
 	/**
