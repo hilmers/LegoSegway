@@ -150,6 +150,11 @@ The controller used the the output from the gyrosensor to calculate the control 
 \\[3ex]
 To solve this, a second PID-controller could have been used. A cascaded controller would be able to handle both the angle and the position of the Segway. So, potentially, the controller for the angle could have had the difference in position as it's reference value. By controlling this way, steering would also have been possible. Unfortunately too much focus was used on dealing with the drift in the gyroscope, so this was never implemented.
 
+\subsection{EV3 or NXT?}
+Given that LEGO Mindstorm EV3 is newer than NXT, The obvious pick was the EV3. While that seemed like a good idea at first, it proved to be the opposite. Even though EV3 is improved and has more functionality, the NXT had been documented better. At least when it came to using it with leJOS. Since leJOS was not produced by LEGO, it was obvious that it had fallen behind a few versions.
+
+NXT hardware was accessible in Lab room B, so it might have been a good idea to use that rather than the EV3.
+
 \newpage
 %Källförtecknhing
 \bibliographystyle{unsrt}
