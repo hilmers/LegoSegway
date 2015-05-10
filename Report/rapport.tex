@@ -18,8 +18,13 @@
 \usepackage[T1]{fontenc}   
 \usepackage{graphicx}             % För svenska bokstäver
 \usepackage[swedish]{babel} 
-\usepackage{amsmath}            % För svensk avstavning och svenska
-\usepackage[hyphens]{url}                                  % rubriker (t ex "innehållsförteckning)
+\usepackage{amsmath}   
+\usepackage{endnotes}
+       % För svensk avstavning och svenska
+\usepackage[hyphens]{url}     
+
+\let\footnote=\endnote  
+                             % rubriker (t ex "innehållsförteckning)
 \title{FRTN01 Project \\
 Group 1: Lego Segway}
 \author{
@@ -130,16 +135,16 @@ The Operator program (see figure 2 for UML-diagram)  contains a Main class that 
 \subsection{Physical design and hardware}
 Early on it was clear that the initial build of the Segway had a lot of flaws. The position of the actual EV3 brick didn't give the Segway equilibrium and there was no actual thought behind the design, besides making it tall for easier control. Tuning the PID parameters would not be an easy task with the present design. The solution was to rebuild it all, where stability and equilibrium was the main goal. After some research an advanced and robust design was found on line, lego's official {\it Gyro Boy}   implementation\footnote{\url{http://robotsquare.com/wp-content/uploads/2013/10/45544_gyroboy.pdf}}, where our design consists of the vital parts in the tutorial. The design process is well documented in the GitHub repository\footnote{\url{https://github.com/hilmers/LegoSegwayFRTN01}}. 
 \\[3ex]
-At this part the Segway was robust and well-balanced, but the {\it HiTechnic Gyro Sensor} introduced some issues. It was quickly discovered that the Gyro had a habit to cause drift. The drift affected the Segway's zero point position, in which it is self-balanced. The problem could partially be derived from the EV3 battery, lower battery levels lead to higher drift. But even with a fully-loaded or even plugged in battery there was a drift problem. By introducing a Low Pass Filter in the {\it Gyro Sensor} class the problem was minimised, but still present. Adding an empirically developed constant to the sampled value from the Low Pass Filter proved effective. The produced drift constant was divided by the amount of samples to give a relevant offset. Research on the Internet showed that this was a well known problem with the {\it HiTechnic gyroscopic Sensor} and a perfect solution was yet to be found. 
+At this part the Segway was robust and well-balanced, but the {\it HiTechnic Gyro Sensor} introduced some issues. It was quickly discovered that the Gyro had a habit to cause drift. The drift affected the Segway's zero point position, in which it is self-balanced. The problem could partially be derived from the EV3 battery, lower battery levels lead to higher drift. But even with a fully-loaded or even plugged in battery there was a drift problem. By introducing a Low Pass Filter in the {\it Gyro Sensor} class the problem was minimised, but still present. Adding an empirically developed constant to the sampled value from the Low Pass Filter proved effective. The produced drift constant was divided by the amount of samples to give a relevant offset. Research on the Internet showed that this was a well known problem with the {\it HiTechnic gyroscopic Sensor} and a perfect solution is yet to be found. 
 \\[3ex]
-Accelerometer ....      
+An accelerometer was added to the design, the idea was to introduce a complementary filter working with the {\it HiTechnic gyroscopic Sensor} and {\it HiTechnic Acceleration Sensor} to compensate for the still present drift problem. The solution proved unsuccessful, so the group started to accept the problem since it took to much time.        
 
 \subsection{Parameter tuning}
 With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning resulted in hopeful development where the segway showed intentions of working, but it was quickly realised that a more precise plan was required.
 \\[3ex]
 The Ziegler-Nichols method\footnote{\url{http://en.wikipedia.org/wiki/Ziegler-Nichols_method}} was used to optimize the parameters for our PID, and the result proved quite successful. 
 
-With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning resulted.
+\section{Result}
 
 \section{Discussion}
 
@@ -161,5 +166,5 @@ where $\beta_g$ was the signal of the gyroscope sensor and $\beta_a$ was the sig
 %Källförtecknhing
 \bibliographystyle{unsrt}
 \bibliography{bibliography.bib}
-
+\theendnotes
 \end{document}                 % The input file ends with this command.
