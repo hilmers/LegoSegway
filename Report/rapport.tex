@@ -138,6 +138,14 @@ Accelerometer ....
 With a robust design and well implemented PID, the last piece of the puzzle are the PID parameters. As a start point we used parameters comparable to the ones used in the Ball and Beam process, and derived the work from that. Brute force tuning resulted.
 
 \section{Discussion}
+
+\subsection{Gyroscopic drift}
+The project group was not prepared on the huge task concerning on how to collect proper data from the gyroscopic sensor. Approximately half of the total working time on implementing the Segway code was spent on how to avoid the gyroscopic drift. 
+It turned out that it was a very common problem and that other project groups experienced the same problem. 
+
+\noindent The problem in finding proper data was so problematic that important functionality had to be sacrificed, e.g. cascade controlling the Segway and graphical user interfaces. It was sad that this problem occurred, since the the project group really looked forward to how to implement code for a real control system. 
+
+\subsection{Complementary filter design}
 The model that is implemented in the Segway robot only use a gyroscopic sensor. For pose estimation another solution was examined and analysed. The sought solution was a working complementary filter, which used a low-pass filtered signal from the accelerometer and a high-passed filtered and integrated signal from a accelerometer sensor. The output of the filter was a weighted sum of the two signals, which was then used as a value on the angle 
  
 \begin{displaymath}
