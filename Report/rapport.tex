@@ -72,7 +72,7 @@ The PID-regulator is a very common regulator. It can be separated in to three di
 \begin{equation}
    U(s) = P +  I + D
 \end{equation}
-The term P is callled the proportional term it calculates the control signal U depending of the size of the error $E = R - Y$ (where $R$ is the desired reference value and $Y$ the actual measured value). A $P$-regulator using only the $P$-term would though generate a undesirable stationary error. That is the reason to use the $I$-part which grows in case of an stationary error and thus rejects it. The $D$-part extends the regulator even more by introducing an prediction and thus even more precise control.
+The term P is called the proportional term it calculates the control signal U depending of the size of the error $E = R - Y$ (where $R$ is the desired reference value and $Y$ the actual measured value). A $P$-regulator using only the $P$-term would though generate a undesirable stationary error. That is the reason to use the $I$-part which grows in case of an stationary error and thus rejects it. The $D$-part extends the regulator even more by introducing an prediction and thus even more precise control.
 
 To define the appropriate parameter values for the regulator both analytic and empirical methods are to be used.
  When this is achieved and the Segway is able to balance the controller are to be extended. The extended controller will consist of  two cascaded coupled PID-regulators instead of the single PID-regulator used before. The input to the outer PID will be the desired position of the Segway that signal will be used as input to the inner regulator which calculates the control signal to the motors. This would make it possible for us to both balance the Segway and to move it forward and backward. Set-points will then be introduced to limit the signal to either of the wheels, this will make it possible to also steer the Segway to right or left.
@@ -90,16 +90,17 @@ To define the appropriate parameter values for the regulator both analytic and e
 \section{User Interface}
 
 \subsection{Running the Segway}
-The user uploads her program to the EV3 brick via Bluetooth. This is easily done through the leJOS-plugin for Eclipse. When the program is running on the Segway, the user will have to use Telnet in order to connect to the Segway to be able to run it. The IP-address of the EV3 brick can be found on the screen of the brick if Wi-Fi is enabled. Once connected, the user can input different commands which will be explained below.
+
+
+The user uploads the program to the EV3 brick via Bluetooth. This is easily done through the leJOS-plugin for Eclipse, which uploads a jar-file that the leJOS system can use.
+Once the program is running on the Segway, Telnet is used to communicate with the Segway. It is very easy to establish a connection via Telnet, the IP-address is found on screen of the EV3 brick. The working commands that can be run over Telnet are listed below.
 
 \begin{itemize}
-\item \textbf{start} - starts the controller, allowing the Segway to stand
-\item \textbf{stop} - stops the controller, making the Segway stop (and fall)
-\item \textbf{ku <value>} - changes the parameter $K_{u}$ of the controller to <value>
-\item \textbf{tu <value>} - changes the parameter $T_{u}$ of the controller to <value>
+\item \textbf{start} - starts the controller, allowing the Segway to balance
+\item \textbf{stop} - stops the controller, making the Segway stop balancing (and fall over)
 \end{itemize}
 
-\noindent Using the command \textbf{stop} will not terminate the controller thread, meaning the Segway can start again without having to restart the system and reconnecting using Telnet. Terminate the program, the user clicks the \"Stop Program\" button found in the leJOS GUI found in the leJOS Eclipse-plugin.
+\noindent Using the command \textbf{stop} will not terminate the controller thread, meaning the Segway can start again without having to restart the system and reconnecting using Telnet. In order to terminate the program, the user clicks the \"Stop Program\" button found in the leJOS GUI found in the leJOS Eclipse-plugin.
 
 \subsection{Plotter}
   %Detta blir en underunderrubrik
