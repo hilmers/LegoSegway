@@ -9,7 +9,7 @@ Final design.
 The actual working code is now on branch "test". Video to come, stay tuned.
 Alot if people has requested a picture of the office, here it is.
 <p align="center">
-<img src="images/office.jpg" height="300" alt="Screenshot"/>
+<img src="images/office.jpg" height="500" alt="Screenshot"/>
 </p>
 
 
