@@ -6,11 +6,18 @@ public class SegwayMonitor {
 	private double velocity;
 	private double angle;
 	private double angVel;
-	
+	private double v;
 	public synchronized int getSpeed() {
 		return speed;
 	}
-
+	public double getV() {
+		return v;
+	}
+	public synchronized void setV(double v) {
+		this.v = v;
+	}
+	
+	
 	public synchronized void setSpeed(int speed) {
 		this.speed = speed;
 	}
@@ -35,7 +42,7 @@ public class SegwayMonitor {
 		this.velocity = velocity;
 	}
 	
-	public synchronized double getAngle() {
+	public double getAngle() {
 		return angle;
 	}
 	

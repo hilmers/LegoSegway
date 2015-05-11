@@ -21,29 +21,20 @@ public class Regul implements Runnable {
 	@Override
 	public void run() {
 		double ref =-1.0;
-		double u = 0.0;
 		double v = 0.0;
 		double angle = 0.0;
-		double lastAngle = 0.0;
-		double angularVel = 0.0;
 		System.out.println("Running...");
-		int tmp = 0;
+	
 		while (true) {	
 			long start = System.currentTimeMillis();
 			int power = 0;
-			boolean controlled = false;
 			boolean forward = true;
 			synchronized (angleController) {
 				power = 0;
 				v = 0.0;
 				forward = true;
-				//controlled = false;
-				// Calculate control signal
 				angle = gyro.getAngle();
-			//if (angle < ref + 1.5 && angle > ref - 1.5) {
-					//angle = ref;
-					//gyro.setAngle(ref);
-				//}
+	
 			
 					v = angleController.calculateOutput(angle, ref);
 					
@@ -61,19 +52,17 @@ public class Regul implements Runnable {
 					if (power > 99) {
 						if (forward) {
 							angleController.updateState(-(v/100)*1000);
-							
+							mon.setV(-power);
 						} else {
 							angleController.updateState((v/100)*1000);
+							mon.setV(power);
 						}
 						power = 99;
 					}
 				
-				// System.out.println("controller out: " + v);
 				mon.setAngle(angle);
-				//mon.setAngularVelocity(angularVel);
-				// mon.setSpeed((int) Math.round(v));
-				mon.setSpeed(power);
-				if (true) {
+				//mon.setSpeed(power);
+				
 					
 					if (forward) {
 						segway.forward(power, power);
@@ -82,15 +71,7 @@ public class Regul implements Runnable {
 						
 
 					}
-				}
-
-
-				// This updates the controller parameters
-				// If they have not changed, the old value will be used
-				// angleController.updateParameters(parmon.getKu(),
-				// parmon.getTu());
-
-				// Run motor
+				
 
 			}
 
@@ -102,7 +83,6 @@ public class Regul implements Runnable {
 					System.out.println("controller was not able to sleep");
 				}
 			}
-			//segway.stop();
 		}
 
 	}

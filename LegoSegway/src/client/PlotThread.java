@@ -18,7 +18,7 @@ public class PlotThread implements Runnable {
 					mon.getReferenceValue());
 			plotGUI.plot();
 
-			System.out.println("k�rs");
+			//System.out.println("k�rs");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

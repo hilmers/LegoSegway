@@ -10,9 +10,10 @@ public class Main {
 		ParameterMonitor parmon = new ParameterMonitor();
 		Thread regul = new Thread(new Regul(segway, segmon, parmon, 40)); // H
 		regul.setPriority(1);// = // 0.02s
-		Thread com = new Thread(new CommunicationThread(1337, parmon));
+		Thread com = new Thread(new CommunicationThread(1337, segmon));
 	
 		regul.start();
-		//com.start();
+		com.setPriority(Thread.MIN_PRIORITY);
+		com.start();
 	}
 }

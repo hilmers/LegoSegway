@@ -14,10 +14,12 @@ public class Main {
 		  Reader reader = new Reader(opcom, mon);
 		  opcom.start();
 		  reader.start();
+		  CommunicationThread t = new CommunicationThread(mon);
 		
 		ReferenceGUI refGUI = new ReferenceGUI(mon);
 		PlotThread pt = new PlotThread(mon, opGUI);
 		pt.run();
+		t.run();
 		
 		
 

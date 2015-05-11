@@ -1,7 +1,7 @@
 package hardware;
 
 public class PID {
-	private double beta, K, N, Td, Ti, Tr, Kp0, Ku, Tu = 0.0; // parameters
+	private double K, N, Td, Ti, Tr; // parameters
 	private long h = 1/40;
 	private double ad, bd = 0.0;
 	private double I, D = 0.0;
@@ -10,43 +10,17 @@ public class PID {
 	public static final int INNER = 0, OUTER = 1;
 
 	public PID(int type) {
-		if (type == INNER) {
-			// parameters in case controlling the inner loop
-
-			// Ku ultimate gain / constant amplitude
-			// Tu oscillation period
-
-//			Ku = 100.0;
-//			Tu = 50.0; // 20?
-//			beta = 1.0;
-//			integratorOn = true;
-//			K = 0.6 * Ku;
-//			Ti = 2 * K / Tu;
-//			Tr = 10.0;
-//			Td = K * Tu / 8.0;
-//			N = 18;
+	
+	
 			integratorOn = true;
-			K = 10.0; //wo norm 3 //15 // 13.0
-			 Ti = 0.25;//4 //2 0.05
-			Td = 6.0; //2 6.0
+			K = 10.0; // 10.0
+			 Ti = 0.25;// 0.05 / alt 0.25
+			Td = 6.0; //6.0
 			 N = 18.0; //18
-			 Tr = 10.0;
-			 beta = 10.0;
+			 Tr = 10.0; //10
 
-		} else if (type == OUTER) {
-			// Parameters in case controlling the outer loop
-			beta = 1.0;
-			integratorOn = true;
-
-			// �ndrade till 10
-			K = 1000 * 0.0336;
-			Ti = 100 * 0.2688;
-			Tr = 5.0;
-			Td = 100 * 0.000504;
-			N = 5;
-		}
-		ad = Td / (Td + N * h); // H = 0.02
-		bd = K * ad * N;
+			 ad = Td / (Td + N * h); // H = 0.025
+			 bd = K * ad * N;
 	}
 
 	/**
@@ -61,10 +35,10 @@ public class PID {
 	 */
 	public synchronized double calculateOutput(double y, double ref) {
 		e = ref - y;
-	 D = ad * D - bd * (y - yOld);
-		 yOld = y;
-		 v = K * e + I + D;
-		 return v;
+		D = ad * D - bd * (y - yOld);
+		yOld = y;
+		v = K * e + I + D;
+		return v;
 	}
 
 	/**
@@ -93,9 +67,8 @@ public class PID {
 	 * @param Ti
 	 * @param Tr
 	 */
-	public synchronized void setParameters(double beta, double K, long h,
+	public synchronized void setParameters( double K, long h,
 			double N, double Td, double Ti, double Tr) {
-		this.beta = beta;
 		this.K = K;
 		this.h = h;
 		this.N = N;
@@ -113,12 +86,5 @@ public class PID {
 		I = 0;
 	}
 
-	public synchronized void updateParameters(double Ku, double Tu) {
-		this.Ku = Ku;
-		this.Tu = Tu;
-		K = 0.33 * Ku;
-		Ti = 2.0 * K / Tu;
-		Td = K * Tu / 3.0;
-	}
 
 }

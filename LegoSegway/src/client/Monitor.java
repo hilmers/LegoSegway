@@ -13,7 +13,7 @@ public class Monitor {
 		return controlSignal;
 	}
 
-	public synchronized void setControlSignal(int controlSignal) {
+	public synchronized void setControlSignal(double controlSignal) {
 		this.controlSignal = controlSignal;
 	}
 
@@ -21,7 +21,7 @@ public class Monitor {
 		return currentAngle;
 	}
 
-	public void setCurrentAngle(int currentAngle) {
+	public void setCurrentAngle(double currentAngle) {
 		this.currentAngle = currentAngle;
 	}
 
@@ -29,7 +29,7 @@ public class Monitor {
 		return referenceValue;
 	}
 
-	public void setReferenceValue(int referenceValue) {
+	public void setReferenceValue(double referenceValue) {
 		this.referenceValue = referenceValue;
 	}
 
