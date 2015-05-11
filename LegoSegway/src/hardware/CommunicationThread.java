@@ -2,6 +2,7 @@ package hardware;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -81,6 +82,20 @@ public class CommunicationThread implements Runnable {
 	}
 	private void stopRegul() {
 		mon.setRunning(false);
+		FileWriter writer = new FileWriter("powerSamples.txt");
+		ArrayList<double> powerSamples = mon.getPowerSample();
+		for (double power: powerSamples) {
+			writer.write(String.valueOf(power));
+		}
+		writer.close();
+
+		FileWriter writer2 = new FileWriter("powerSamples.txt");
+		ArrayList<double> angleSamples = mon.getAngleSample();
+		for (double angle: angleSamples) {
+			writer2.write(String.valueOf(angle));
+		}
+		writer2.close();
+
 	}
 	private void startRegul() {
 		mon.setRunning(true);

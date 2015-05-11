@@ -8,6 +8,8 @@ public class Regul implements Runnable {
 	private PID angleController;
 	private GyroSensor gyro;
 	private ParameterMonitor parmon;
+	private ArrayList<double> angleSamples;
+	private ArrayList<double> powerSamples;
 	// private AccSensor accSensor;
 	private CompFilter compFilter;
 
@@ -17,6 +19,8 @@ public class Regul implements Runnable {
 		this.mon = mon;
 		this.parmon = parmon;
 		this.h = h;
+		angleSamples = new ArrayList<double>();
+		powerSamples = new ArrayList<double>();
 		gyro = segway.getGyro();
 		posController = new PID(PID.OUTER);
 		angleController = new PID(PID.INNER);
@@ -33,7 +37,7 @@ public class Regul implements Runnable {
 		double angularVel = 0.0;
 		System.out.println("Running...");
 		// try {
-		// parmon.waitForConnection();
+		parmon.waitForConnection();
 		// } catch (InterruptedException e1) {
 		//
 		// }
@@ -61,6 +65,7 @@ public class Regul implements Runnable {
 				if (angle < 2 && angle > 0) {
 					angle = 0;
 				}
+				angleSamples.add(angle);
 				v = 0.0;
 				// System.out.println("angle " + angle);
 				if (angle != 0.0) {
@@ -69,6 +74,7 @@ public class Regul implements Runnable {
 					power = (int) Math.abs(v);
 					power = 55 + (power * 45) / 100;
 				}
+				powerSamples.add(v);
 
 				// System.out.println("controller out: " + v);
 				mon.setAngle(angle);
@@ -111,6 +117,8 @@ public class Regul implements Runnable {
 					System.out.println("controller was not able to sleep");
 				}
 			}
+			parmon.setPowerSample(powerSamples);
+			parmon.setAngleSample(angleSamples);
 			//segway.stop();
 		}
 
@@ -127,5 +135,13 @@ public class Regul implements Runnable {
 		}
 		return j;
 
+	}
+
+	public ArrayList<double> getPowerSample(){
+		return powerSamples;
+	}
+
+	public ArrayList<double> getAngleSample(){
+		return angleSamples;
 	}
 }
