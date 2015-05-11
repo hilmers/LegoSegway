@@ -1,5 +1,7 @@
 package hardware;
 
+import java.util.ArrayList;
+
 public class Regul implements Runnable {
 	private Segway segway;
 	private SegwayMonitor mon;
@@ -8,8 +10,8 @@ public class Regul implements Runnable {
 	private PID angleController;
 	private GyroSensor gyro;
 	private ParameterMonitor parmon;
-	private ArrayList<double> angleSamples;
-	private ArrayList<double> powerSamples;
+	private ArrayList<Double> angleSamples;
+	private ArrayList<Double> powerSamples;
 	// private AccSensor accSensor;
 	private CompFilter compFilter;
 
@@ -19,8 +21,8 @@ public class Regul implements Runnable {
 		this.mon = mon;
 		this.parmon = parmon;
 		this.h = h;
-		angleSamples = new ArrayList<double>();
-		powerSamples = new ArrayList<double>();
+		angleSamples = new ArrayList<Double>();
+		powerSamples = new ArrayList<Double>();
 		gyro = segway.getGyro();
 		posController = new PID(PID.OUTER);
 		angleController = new PID(PID.INNER);
@@ -37,7 +39,12 @@ public class Regul implements Runnable {
 		double angularVel = 0.0;
 		System.out.println("Running...");
 		// try {
-		parmon.waitForConnection();
+		try {
+			parmon.waitForConnection();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		// } catch (InterruptedException e1) {
 		//
 		// }
@@ -119,7 +126,7 @@ public class Regul implements Runnable {
 			}
 			parmon.setPowerSample(powerSamples);
 			parmon.setAngleSample(angleSamples);
-			//segway.stop();
+			// segway.stop();
 		}
 
 		// }
@@ -137,11 +144,11 @@ public class Regul implements Runnable {
 
 	}
 
-	public ArrayList<double> getPowerSample(){
+	public ArrayList<Double> getPowerSample() {
 		return powerSamples;
 	}
 
-	public ArrayList<double> getAngleSample(){
+	public ArrayList<Double> getAngleSample() {
 		return angleSamples;
 	}
 }
