@@ -43,7 +43,7 @@ public class CommunicationThread implements Runnable {
 			try {
 				os.writeDouble(mon.getAngle());
 				os.writeDouble(mon.getV());
-				Thread.sleep(2000);
+				Thread.sleep(100);
 //				String message = is.readLine();
 //				message = message.trim();
 //				if (message.length() > 2) {

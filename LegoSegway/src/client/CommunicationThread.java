@@ -1,43 +1,44 @@
 package client;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.ServerSocket;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class CommunicationThread implements Runnable {
 	DataInputStream is;
 	Socket conn;
 	Monitor mon;
+	PrintWriter controlWriter, angleWriter;
 	public CommunicationThread(Monitor mon) {
-	try {	
-		this.mon = mon;
-		this.conn = new Socket("10.0.1.1", 1337);
-
-	} catch (IOException e) {
-		System.out.println("Server not initialized");
-	}
+	this.mon = mon;
 	}
 	@Override
 	public void run() {
 		try {
-		is = new DataInputStream(conn.getInputStream());
+			this.conn = new Socket("10.0.1.1", 1337);
+			controlWriter = new PrintWriter("control_data.txt", "UTF-8");
+			angleWriter = new PrintWriter("angle_data.txt", "UTF-8");
+			is = new DataInputStream(conn.getInputStream());
 			System.out.println("Connection established");
 		} catch (IOException e1) {
 			System.out.println("Could not connect");
 		}
 		// TODO Auto-generated method stub
-		while (true) {
+		while (conn.isConnected()) {
 			try {
+			//	System.out.println("Trying to read");
 				mon.setCurrentAngle(is.readDouble());
-				System.out.println("Read " + mon.getCurrentAngle());
+			//	System.out.println("Read " + mon.getCurrentAngle());
 				mon.setControlSignal(is.readDouble());
+			//	System.out.println("Cont: " + mon.getControlSignal());
+				angleWriter.println(mon.getCurrentAngle());
+				controlWriter.println(mon.getControlSignal());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				angleWriter.close();
+				controlWriter.close();
 			}
 		}
 	}

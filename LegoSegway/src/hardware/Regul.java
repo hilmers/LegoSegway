@@ -41,23 +41,35 @@ public class Regul implements Runnable {
 					//controlled = true;
 					if (v < 0) {
 						
-						v = -	1.3*v;
+						v = -v;
 					} else {
 						forward = false;
 						
 					}
 					//System.out.println(v);
-					v = (v  / 1000)* 100;
+					double scale = 1000;
+					v = (v  /scale)* 100;
 					power = (int) v;
 					if (power > 99) {
-						if (forward) {
-							angleController.updateState(-(v/100)*1000);
-							mon.setV(-power);
-						} else {
-							angleController.updateState((v/100)*1000);
-							mon.setV(power);
-						}
+					
 						power = 99;
+					}
+					if (forward) {
+						if (power == 99) {
+							angleController.updateState(-(99/scale)*100);
+						} else {
+							angleController.updateState(-(v/scale)*100);
+							
+						}
+						mon.setV(-power);
+					} else {
+						if (power == 99) {
+							angleController.updateState((99/scale)*100);
+						} else {
+							angleController.updateState((v/scale)*100);
+							
+						}
+						mon.setV(power);
 					}
 				
 				mon.setAngle(angle);

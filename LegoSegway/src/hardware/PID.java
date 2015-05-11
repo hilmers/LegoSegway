@@ -2,19 +2,19 @@ package hardware;
 
 public class PID {
 	private double K, N, Td, Ti, Tr; // parameters
-	private long h = 1/40;
+	private double h = 0.025;
 	private double ad, bd = 0.0;
 	private double I, D = 0.0;
 	private double e, v, yOld = 0.0;
-	private boolean integratorOn;
+	private boolean integratorOn = true;
 	public static final int INNER = 0, OUTER = 1;
 
 	public PID(int type) {
 	
 	
-			integratorOn = true;
-			K = 10.0; // 10.0
-			 Ti = 0.25;// 0.05 / alt 0.25
+			this.integratorOn = true;
+			K = 15.0; // 10.0
+			 Ti =0.05;// 0.05 / alt 0.25
 			Td = 6.0; //6.0
 			 N = 18.0; //18
 			 Tr = 10.0; //10
@@ -37,7 +37,9 @@ public class PID {
 		e = ref - y;
 		D = ad * D - bd * (y - yOld);
 		yOld = y;
+		
 		v = K * e + I + D;
+		
 		return v;
 	}
 
@@ -49,6 +51,7 @@ public class PID {
 	 */
 	public synchronized void updateState(double u) {
 		if (integratorOn) {
+			
 			I = I + (K * h / Ti) * e + (h / Tr) * (u - v);
 		} else {
 			I = 0.0;
@@ -77,7 +80,7 @@ public class PID {
 		this.Tr = Tr;
 	}
 
-	public synchronized long getSampleRate() {
+	public synchronized double getSampleRate() {
 		return h;
 	}
 

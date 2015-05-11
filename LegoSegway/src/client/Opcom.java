@@ -139,12 +139,12 @@ public class Opcom {
 		  // Create a panel for the two plotters.
 		  plotterPanel = new BoxPanel(BoxPanel.VERTICAL);
 		  // Create plot components and axes, add to plotterPanel.
-		  measurementPlotter.setYAxis(180, -90, 4, 4);
+		  measurementPlotter.setYAxis(90, -45, 4, 4);
 		  measurementPlotter.setXAxis(range, divTicks, divGrid);
 		  measurementPlotter.setTitle("Position and velocity (V)");
 		  plotterPanel.add(measurementPlotter);
 		  plotterPanel.addFixed(10);
-		  controlPlotter.setYAxis(20, -10, 4, 4);
+		  controlPlotter.setYAxis(1000, -500, 4, 4);
 		  controlPlotter.setXAxis(range, divTicks, divGrid);
 		  controlPlotter.setTitle("Control (V)");
 		  plotterPanel.add(controlPlotter);

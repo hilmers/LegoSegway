@@ -16,10 +16,12 @@ public class Main {
 		  reader.start();
 		  CommunicationThread t = new CommunicationThread(mon);
 		
-		ReferenceGUI refGUI = new ReferenceGUI(mon);
+		//ReferenceGUI refGUI = new ReferenceGUI(mon);
 		PlotThread pt = new PlotThread(mon, opGUI);
-		pt.run();
-		t.run();
+		Thread t1 = new Thread(pt);
+		Thread t2 = new Thread(t);
+		t1.start();
+		t2.start();
 		
 		
 
