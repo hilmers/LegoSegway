@@ -7,6 +7,10 @@ Final design.
 <img src="images/segway3.jpg" height="550" alt="Screenshot"/>
 </p>
 The actual working code is now on branch "test". Video to come, stay tuned.
+Alot if people has requested a picture of the office, here it is.
+<p align="center">
+<img src="images/office.jpg" height="300" alt="Screenshot"/>
+</p>
 
 
 #### 2015-04-24
