@@ -21,6 +21,6 @@ public class Main {
 		// gyro_thread.start();
 		// pos_thread.start();
 		regul.start();
-		// com.start();
+		com.start();
 	}
 }
