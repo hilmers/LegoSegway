@@ -13,8 +13,8 @@ public class PID {
 	
 	
 			this.integratorOn = true;
-			K = 15.0; // 10.0
-			 Ti =0.05;// 0.05 / alt 0.25
+			K = 15.0; //15 // 10.0
+			 Ti = 0.5;// 0.05 / alt 0.25
 			Td = 6.0; //6.0
 			 N = 18.0; //18
 			 Tr = 10.0; //10
