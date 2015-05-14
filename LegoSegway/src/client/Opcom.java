@@ -57,7 +57,7 @@ public class Opcom {
     /** Creates the GUI. Called from Main. */
     public void initializeGUI() {
 		  // Create main frame.
-		  frame = new JFrame("DC Servo GUI");
+		  frame = new JFrame("Segway GUI");
 	
 		  // Create a panel for the two plotters.
 		  plotterPanel = new BoxPanel(BoxPanel.VERTICAL);
